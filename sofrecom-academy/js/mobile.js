@@ -72,7 +72,7 @@
     const pills = [];
     if (tp && !p.pinned) pills.push(`<span class="pill ${tp[1]}">${tp[0]}</span>`);
     if (p.fromRate) pills.push(`<span class="pill teal">${icon('sparkles', { cls: 'sm' })}Issu de LET'S RATE!</span>`);
-    const cover = p.pinned ? `<div class="m-cover"><span class="m-cover-mark">${icon('megaphone', { cls: 'lg' })}</span><span class="label">${icon('pin', { cls: 'sm' })}Épinglé</span><strong>Annonce officielle · Sofrecom Academy</strong></div>` : '';
+    const cover = p.pinned ? `<div class="m-cover"><span class="m-cover-mark">${icon('megaphone', { cls: 'lg' })}</span><span class="m-cover-l">${icon("pin", { cls: "sm" })}Épinglé</span><strong>Annonce officielle · Sofrecom Academy</strong></div>` : '';
     return `<article class="post m-post ${mode === 'feed' ? 'is-feed is-link' : ''} ${p.pinned ? 'is-pinned' : ''} reveal" data-id="${p.id}" data-open="${mode === 'feed' ? p.id : ''}">
       ${cover}
       <div class="post-head">${avatar(a, { size: 'lg', title: false })}
