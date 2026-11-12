@@ -1,5 +1,5 @@
 /* =====================================================================
-   Formateur (Karim M.) — Dashboard (W1) + phase Before (W2 → W8)
+   Formateur (Mohamed K.) — Dashboard (W1) + phase Before (W2 → W8)
    MOCK : toutes les données viennent du Store en mémoire.
    ===================================================================== */
 (function () {
@@ -125,7 +125,7 @@
       const role = (f) => (f.authorId === K ? 'Auteur' : 'Animateur');
       const note = (f) => {
         const p = St.data.proposals.find((x) => x.id === f.proposalId);
-        return p && p.comment && ['modifs', 'refusée'].includes(f.status) ? `<div class="small muted mt-1">${icon('message-square', { cls: 'sm' })} Leïla : « ${esc(p.comment)} »</div>` : '';
+        return p && p.comment && ['modifs', 'refusée'].includes(f.status) ? `<div class="small muted mt-1">${icon('message-square', { cls: 'sm' })} Sihem : « ${esc(p.comment)} »</div>` : '';
       };
       el.innerHTML = `
         ${pageHead({ num: 'W2', eyebrow: 'Before · Mes formations', title: 'Mes formations', lead: 'Les formations que vous animez et celles que vous avez proposées, avec leur statut de validation.',
@@ -273,7 +273,7 @@
       ctx.on('inscriptions', (p) => { if (!p || p.sessionId === sid) update(p); });
       ctx.on('live', () => drawDuring());
       ctx.on('sessions', () => ctx.refresh());
-      // MOCK : flux d'activité simulé. Jamais d'inscrit ajouté à la session fil rouge (le 9→10 vient de Sana).
+      // MOCK : flux d'activité simulé. Jamais d'inscrit ajouté à la session fil rouge (le 9→10 vient de Hbib).
       const viewers = ['hatem', 'lucie', 'walid', 'thomas', 'nizar', 'emma'];
       let tick = 0;
       ctx.every(8000, () => {
@@ -296,7 +296,7 @@
       const MIN_M = 0, MAX_M = months.length - 1;
       const SLOT_TIME = { am: '09:00 – 12:30', pm: '13:30 – 17:00', day: '09:00 – 17:00' };
       const SLOT_LABEL = { am: 'Matin', pm: 'Après-midi', day: 'Journée' };
-      /** Uniquement les formations validées pour lesquelles Karim est habilité */
+      /** Uniquement les formations validées pour lesquelles Mohamed est habilité */
       const myFormations = () => St.data.formations.filter((f) => f.status === 'validée' && ((f.trainerIds || []).includes(K) || f.authorId === K));
       const declared = () => { let n = 0; Object.values(St.data.dispos[K] || {}).forEach((d) => { ['am', 'pm'].forEach((k) => { if (d[k] === 'dispo' || d[k] === 'affecte') n++; }); }); return n; };
       const sessOn = (date, slot) => mySessions().find((s) => s.date === date && (!s.slot || s.slot === 'day' || s.slot === slot));

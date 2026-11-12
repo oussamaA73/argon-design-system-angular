@@ -1,5 +1,5 @@
 /* =====================================================================
-   VUES PARTICIPANT (Sana B.) — P1 Accueil · P4 Ma session · P5/P6 Évaluations
+   VUES PARTICIPANT (Hbib M.) — P1 Accueil · P4 Ma session · P5/P6 Évaluations
    · P7 Badges & certifications · P8 Chat formateur
    (P2 Catalogue, C3 Fiche et P3 Inscription sont dans views-common.js)
    ===================================================================== */
@@ -67,7 +67,7 @@
             <div class="grow">
               <div class="row between" style="align-items:flex-start"><div><span class="eyebrow" style="--phase-accent:var(--cyan)"><span class="num">Ma prochaine session</span></span><h2 style="margin-top:10px;font-size:var(--fs-xl)">${esc(f.title)}</h2></div><span class="${flashNext ? 'pulse-once' : ''}">${statusPill(st)}</span></div>
               <div class="nc-meta"><div>${icon('calendar', { cls: 'sm' })} ${Store.fmtDate(next.date)} · ${esc(next.time)}</div><div>${icon('map-pin', { cls: 'sm' })} ${esc(next.location)}</div><div>${icon('user', { cls: 'sm' })} ${tn ? 'Animée par ' + esc(tn) : 'Formateur à confirmer'}</div></div>
-              <p class="small muted mt-1">${st === 'confirmée' ? 'Votre place est réservée. Pensez à relire la fiche mémo avant la séance.' : (tn ? esc(tn) : 'L\'équipe Academy') + ' examine votre demande : vous serez notifiée dès sa décision.'}</p>
+              <p class="small muted mt-1">${st === 'confirmée' ? 'Votre place est réservée. Pensez à relire la fiche mémo avant la séance.' : (tn ? esc(tn) : 'L\'équipe Academy') + ' examine votre demande : vous serez notifié(e) dès sa décision.'}</p>
               <div class="row mt-2"><a class="btn btn-soft btn-sm" href="#/catalogue/${f.id}">Voir la fiche</a>${next.id === SID() ? '<a class="btn btn-primary btn-sm" href="#/p/session">Ma session</a><a class="btn btn-ghost btn-sm" href="#/p/chat">' + icon('message-circle', { cls: 'sm' }) + 'Écrire au formateur</a>' : ''}</div>
               <div class="mt-2" style="max-width:360px">${window.ui.gauge({ value: fl.n, min: fl.min, max: fl.max, label: 'Inscrits' })}</div>
             </div></section>`;
@@ -268,7 +268,7 @@
           hot.innerHTML = `<div class="card thanks flash-in"><div class="thanks-ico">${icon('heart', { cls: 'xl' })}</div><h2>Merci pour votre retour !</h2><p class="muted">Votre évaluation anonyme a bien été transmise. Elle aidera ${s.trainerId ? esc(Store.person(s.trainerId).name) : 'votre formateur'} à enrichir la prochaine session.</p><a class="btn btn-primary mt-2" href="#/p/accueil">Retour à l'accueil</a></div>`; return;
         }
         if (!open) {
-          hot.innerHTML = `<div class="card">${window.ui.empty({ icon: 'clock', color: 'cyan', title: 'Le formulaire s\'ouvrira à la fin de la séance', text: `Votre formateur l'activera à la fin de « ${esc(f.short)} ». Vous serez notifiée immédiatement.`, cta: '<button class="btn-link-discreet" id="hot-force">Ouvrir le formulaire (démo)</button>' })}</div>`;
+          hot.innerHTML = `<div class="card">${window.ui.empty({ icon: 'clock', color: 'cyan', title: 'Le formulaire s\'ouvrira à la fin de la séance', text: `Votre formateur l'activera à la fin de « ${esc(f.short)} ». Vous serez notifié(e) immédiatement.`, cta: '<button class="btn-link-discreet" id="hot-force">Ouvrir le formulaire (démo)</button>' })}</div>`;
           hot.querySelector('#hot-force').addEventListener('click', () => { forced.v = true; drawHot(); }); return;
         }
         const crit = Store.data.criteria; const hints = { clarte: 'Les explications étaient-elles claires ?', rythme: 'Le tempo de la séance vous a-t-il convenu ?', interactivite: 'Avez-vous pu participer, échanger ?', supports: 'Supports et exercices utiles ?', utilite: 'Pourrez-vous l\'appliquer sur le terrain ?' };
@@ -375,7 +375,7 @@
       el.innerHTML = pageHead({ num: 'P8', eyebrow: 'Échanger', title: 'Chat avec votre formateur', lead: 'Posez vos questions avant ou après la séance, ou échangez avec le groupe.' }) + '<div id="p8-wrap"></div>';
       const wrap = el.querySelector('#p8-wrap');
       const convs = Store.conversationsOf(ME);
-      if (ctx.scenario === 'vide' || !convs.length) { wrap.innerHTML = `<div class="card">${window.ui.empty({ icon: 'message-circle', color: 'cyan', title: 'Pas encore de conversation', text: 'Dès que vous serez inscrite à une session, vous pourrez échanger avec votre formateur ici.', cta: '<a class="btn btn-primary" href="#/catalogue">Explorer le catalogue</a>' })}</div>`; return; }
+      if (ctx.scenario === 'vide' || !convs.length) { wrap.innerHTML = `<div class="card">${window.ui.empty({ icon: 'message-circle', color: 'cyan', title: 'Pas encore de conversation', text: 'Dès que vous serez inscrit(e) à une session, vous pourrez échanger avec votre formateur ici.', cta: '<a class="btn btn-primary" href="#/catalogue">Explorer le catalogue</a>' })}</div>`; return; }
       let cur = convs[0].id; let off = null;
       const unread = (c) => c.messages[c.messages.length - 1];
       const draw = () => {
@@ -388,7 +388,7 @@
       };
       const mount = () => {
         if (off) off(); const c = convs.find((x) => x.id === cur); const direct = c.type === 'direct';
-        off = window.ui.chat(wrap.querySelector('#p8-chat'), { convId: cur, me: ME, title: direct ? 'Karim M. — formateur' : c.title, subtitle: Store.sessionTitle(Store.session(c.sessionId)), quick: direct ? ['Merci beaucoup !', 'Puis-je avoir le support en avance ?'] : null, autoReply: { from: 'karim', texts: ['Merci pour votre message, je vous réponds dans la journée !', 'Bonne question, nous la verrons ensemble pendant la séance.', 'Je partage le support la veille de la session, pas d\'inquiétude.'] } });
+        off = window.ui.chat(wrap.querySelector('#p8-chat'), { convId: cur, me: ME, title: direct ? 'Mohamed K. — formateur' : c.title, subtitle: Store.sessionTitle(Store.session(c.sessionId)), quick: direct ? ['Merci beaucoup !', 'Puis-je avoir le support en avance ?'] : null, autoReply: { from: 'karim', texts: ['Merci pour votre message, je vous réponds dans la journée !', 'Bonne question, nous la verrons ensemble pendant la séance.', 'Je partage le support la veille de la session, pas d\'inquiétude.'] } });
       };
       draw();
       ctx.track(() => { if (off) off(); });

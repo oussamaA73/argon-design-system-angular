@@ -20,9 +20,9 @@ Raccourcis : `portail.html?as=karim` · `?as=sana` · `?as=leila` ouvrent direct
 
 | Compte | Rôle | Accueil |
 |---|---|---|
-| **Sana B.** | Participant | `#/p/accueil` |
-| **Karim M.** | Formateur (badge « En sursis ») | `#/f/dashboard` |
-| **Leïla T.** | Observateur / Équipe formation | `#/o/cockpit` |
+| **Hbib M.** | Participant | `#/p/accueil` |
+| **Mohamed K.** | Formateur (badge « En sursis ») | `#/f/dashboard` |
+| **Sihem Z.** | Observateur / Équipe formation | `#/o/cockpit` |
 
 Pour changer de compte, utiliser l'avatar de la topbar (portail) ou Profil → « Changer de compte » (mobile). L'état est **partagé** : les actions d'un rôle sont visibles chez les autres, y compris entre le portail et le mobile (`localStorage`). La commande « Réinitialiser la démo » restaure les données de départ.
 
@@ -59,4 +59,4 @@ sofrecom-academy/
 - Dérogations commentées `/* dérogation : … */` dans le CSS (couleur d'identité des 3 comptes, accent « After » en `--green-ok`).
 
 ## Questions ouvertes (plan §11)
-Hypothèses retenues en attendant arbitrage : 5 critères LET'S RATE! sur 5 étoiles, nom « Smart Assist », jauge min 6 / max 12, personas Sana / Karim / Leïla, catalogue fictif, validation des vouchers par le formateur seul, Entraide en lecture seule pour le Participant, montants en TND.
+Hypothèses retenues en attendant arbitrage : 5 critères LET'S RATE! sur 5 étoiles, nom « Smart Assist », jauge min 6 / max 12, personas Hbib / Mohamed / Sihem, catalogue fictif, validation des vouchers par le formateur seul, Entraide en lecture seule pour le Participant, montants en TND.

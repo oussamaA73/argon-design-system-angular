@@ -14,7 +14,7 @@
   const fColor = (f) => window.ui.colorVar(f.color);
   const isParticipant = () => Store.role === 'participant';
 
-  /** Statut de Sana sur n'importe quelle session à venir d'une formation */
+  /** Statut de Hbib sur n'importe quelle session à venir d'une formation */
   function myStatus(fid) {
     for (const s of upcoming(fid)) { const st = Store.enrollmentStatus(s.id, 'sana'); if (st) return { status: st, session: s }; }
     return null;
@@ -140,7 +140,7 @@
           <div class="cat-body"><h3>${esc(f.title)}</h3>
             <div class="row" style="gap:6px"><span class="pill outline">${esc(f.theme)}</span><span class="pill ${levelColor(f.level)}">${esc(f.level)}</span><span class="pill outline">${esc(f.format)}</span></div>
             <div class="cat-next">${s ? `${icon('calendar', { cls: 'sm' })}<span>Prochaine session : <b>${Store.fmtDateMid(s.date)}</b></span>` : `<span class="dim">Pas de session programmée</span>`}</div>
-            <div class="row between" style="gap:8px">${placesPill(s)}${mine ? (mine.status === 'confirmée' ? '<span class="pill ok">Inscrite</span>' : '<span class="pill orange">Demande en attente</span>') : ''}</div>
+            <div class="row between" style="gap:8px">${placesPill(s)}${mine ? (mine.status === 'confirmée' ? '<span class="pill ok">Inscrit(e)</span>' : '<span class="pill orange">Demande en attente</span>') : ''}</div>
             <div class="cat-pre"><span class="flt-label">Prérequis</span><div class="chips" style="gap:6px">${pre}</div></div></div></a>`;
       };
 

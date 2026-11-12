@@ -1,5 +1,5 @@
 /* =====================================================================
-   VUES OBSERVATEUR — Leïla T. (Équipe formation) · phase « pilotage »
+   VUES OBSERVATEUR — Sihem Z. (Équipe formation) · phase « pilotage »
    O1 Cockpit · O2 Validation · O3 Risques · O4 Sessions · O5 Paiements
    O6 Badges · O7 Qualité (LET'S RATE!)
    ===================================================================== */

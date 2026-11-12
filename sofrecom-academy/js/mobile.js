@@ -201,7 +201,7 @@
       if (!mine.length) {
         const s = Store.filRouge();
         inner = `<div class="m-section-title">${icon('graduation-cap')}Session suggérée</div><article class="card m-sess reveal"><h2>${esc(Store.sessionTitle(s))}</h2>${sessMeta(s)}
-          <p class="small" style="color:var(--ink-soft)">Vous n'êtes inscrite à aucune session à venir.</p>
+          <p class="small" style="color:var(--ink-soft)">Vous n'êtes inscrit(e) à aucune session à venir.</p>
           <button class="btn btn-purple" data-act="enroll" data-sid="${s.id}">${icon('user-plus', { cls: 'sm' })}Demander mon inscription</button>
           <a class="m-link" href="portail.html#/catalogue">Voir le catalogue${icon('external-link', { cls: 'sm' })}</a></article>`;
       } else {
@@ -287,10 +287,10 @@
       <circle cx="150" cy="108" r="86" fill="color-mix(in srgb, var(--purple) 10%, white)"/><circle cx="150" cy="108" r="58" fill="none" stroke="var(--purple)" stroke-opacity=".35" stroke-dasharray="3 7" stroke-width="2"/>
       <g stroke="var(--line-2)" stroke-width="2.5"><line x1="150" y1="108" x2="64" y2="62"/><line x1="150" y1="108" x2="236" y2="62"/><line x1="150" y1="108" x2="84" y2="170"/><line x1="150" y1="108" x2="222" y2="170"/></g>
       <circle cx="150" cy="108" r="32" fill="url(#onbg)"/><g transform="translate(135 93) scale(1.25)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></g>
-      <circle cx="64" cy="62" r="22" fill="color-mix(in srgb, var(--blue) 18%, white)" stroke="var(--blue)" stroke-width="3"/><text x="64" y="67" text-anchor="middle" font-size="14" font-weight="800" fill="var(--blue-d)" font-family="Inter,sans-serif">KM</text>
-      <circle cx="236" cy="62" r="22" fill="color-mix(in srgb, var(--purple) 20%, white)" stroke="var(--purple)" stroke-width="3"/><text x="236" y="67" text-anchor="middle" font-size="14" font-weight="800" fill="var(--purple-ink)" font-family="Inter,sans-serif">LT</text>
+      <circle cx="64" cy="62" r="22" fill="color-mix(in srgb, var(--blue) 18%, white)" stroke="var(--blue)" stroke-width="3"/><text x="64" y="67" text-anchor="middle" font-size="14" font-weight="800" fill="var(--blue-d)" font-family="Inter,sans-serif">MK</text>
+      <circle cx="236" cy="62" r="22" fill="color-mix(in srgb, var(--purple) 20%, white)" stroke="var(--purple)" stroke-width="3"/><text x="236" y="67" text-anchor="middle" font-size="14" font-weight="800" fill="var(--purple-ink)" font-family="Inter,sans-serif">SZ</text>
       <circle cx="84" cy="170" r="22" fill="color-mix(in srgb, var(--teal) 20%, white)" stroke="var(--teal)" stroke-width="3"/><text x="84" y="175" text-anchor="middle" font-size="14" font-weight="800" fill="var(--teal-ink)" font-family="Inter,sans-serif">NR</text>
-      <circle cx="222" cy="170" r="22" fill="color-mix(in srgb, var(--cyan) 20%, white)" stroke="var(--cyan)" stroke-width="3"/><text x="222" y="175" text-anchor="middle" font-size="14" font-weight="800" fill="var(--cyan-ink)" font-family="Inter,sans-serif">SB</text>
+      <circle cx="222" cy="170" r="22" fill="color-mix(in srgb, var(--cyan) 20%, white)" stroke="var(--cyan)" stroke-width="3"/><text x="222" y="175" text-anchor="middle" font-size="14" font-weight="800" fill="var(--cyan-ink)" font-family="Inter,sans-serif">HM</text>
       <rect x="150" y="14" width="64" height="30" rx="15" fill="var(--orange)"/><path d="M164 44l-4 9 11-9z" fill="var(--orange)"/><circle cx="168" cy="29" r="3" fill="var(--ink)"/><circle cx="182" cy="29" r="3" fill="var(--ink)"/><circle cx="196" cy="29" r="3" fill="var(--ink)"/></svg>`;
     const P = [['pen-line', 'Publier & réagir', 'Partagez vos bonnes pratiques et ressources, réagissez en un geste.'], ['hand-heart', 'S\'entraider', 'Co-animation, remplacements, questions : la communauté répond.'], ['trending-up', 'Progresser ensemble', 'Gardez votre badge actif et grandissez sans compétition.']];
     return {

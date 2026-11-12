@@ -1,5 +1,5 @@
 /* =====================================================================
-   Formateur Karim M. — During (W9), After (W10-W11), Transverse (W12-W14)
+   Formateur Mohamed K. — During (W9), After (W10-W11), Transverse (W12-W14)
    + Smart Assist (W15, tiroir global App.openSmartAssist)
    ===================================================================== */
 (function () {
@@ -182,7 +182,7 @@
         const prefill = { visio: 'Lien visio KO pour les participants à distance', salle: 'Problème dans la salle : ', materiel: 'Matériel défaillant : ', reseau: 'Réseau instable : ' };
         modal({
           title: 'Alerte logistique', eyebrow: 'During · Séance en cours', accent: 'var(--orange)',
-          body: `<p class="muted small" style="margin-bottom:14px">L'équipe Academy est notifiée immédiatement.</p>
+          body: `<p class="muted small" style="margin-bottom:14px">L'équipe Academy est notifié(e) immédiatement.</p>
             <div class="al-types" role="radiogroup" aria-label="Type d'alerte">${ALERT_TYPES.map((t) => `<button type="button" class="al-type" role="radio" data-type="${t.id}" aria-checked="${t.id === type}">${icon(t.icon, { cls: 'lg' })}<b>${t.label}</b><span class="xs">${t.hint}</span></button>`).join('')}</div>
             <div class="field mt-2"><label for="alMsg">Message</label><textarea class="textarea" id="alMsg" rows="3" placeholder="Décrivez le problème…"></textarea></div>`,
           foot: '<button class="btn btn-ghost" data-close>Annuler</button><button class="btn btn-primary" data-send>Envoyer l\'alerte</button>',
@@ -195,7 +195,7 @@
             }));
             m.querySelector('[data-send]').addEventListener('click', () => {
               const t = ALERT_TYPES.find((x) => x.id === type);
-              S.addLogisticsAlert(s.id, { type, label: t.label, message: msg.value.trim() }); // MOCK : notification Leïla
+              S.addLogisticsAlert(s.id, { type, label: t.label, message: msg.value.trim() }); // MOCK : notification Sihem
               close(); toast(`Alerte « ${t.label} » transmise à l'équipe Academy`, 'warn');
             });
           }
@@ -241,7 +241,7 @@
         chronoSec++; const c = $('#chrono'); if (c) c.textContent = clock(chronoSec);
         if (s.live.quiz === 'running' && quizRemaining > 0) { quizRemaining--; const q = $('#quizClock'); if (q) { q.textContent = mmss(quizRemaining); q.classList.toggle('is-low', quizRemaining <= 15); } }
       });
-      // MOCK : d'autres participants répondent au quiz pendant que Sana (réelle) répond depuis son écran
+      // MOCK : d'autres participants répondent au quiz pendant que Hbib (réelle) répond depuis son écran
       ctx.every(3500, () => {
         if (s.live.quiz !== 'running' || quizRemaining <= 0) return;
         const res = results();
@@ -391,7 +391,7 @@
           const v = S.data.vouchers.find((x) => x.id === b.dataset.id); const p = S.person(v.participantId); const ok = b.dataset.act === 'validé';
           confirm({
             title: ok ? 'Valider ce voucher ?' : 'Refuser ce voucher ?', ok: ok ? 'Valider' : 'Refuser', danger: !ok,
-            text: `${esc(p.fullName || p.name)} · ${esc(v.certification)}.${!v.eligible && ok ? ' <b>Attention : l\'apprenant n\'est pas éligible selon les critères.</b>' : ''} ${p.name} sera notifié${p.initials === 'SB' ? 'e' : ''} immédiatement.`,
+            text: `${esc(p.fullName || p.name)} · ${esc(v.certification)}.${!v.eligible && ok ? ' <b>Attention : l\'apprenant n\'est pas éligible selon les critères.</b>' : ''} ${p.name} sera notifié(e) immédiatement.`,
             onOk() { S.decideVoucher(v.id, b.dataset.act); toast(ok ? `Voucher validé — ${esc(p.name)} est notifié` : `Voucher refusé — ${esc(p.name)} est notifié`, ok ? 'ok' : 'info'); }
           });
         }));
@@ -438,7 +438,7 @@
         const c = convs().find((x) => x.id === activeConv); if (!c) return;
         chatRead[c.id] = c.messages.length;
         const pane = el.querySelector('#chatPane'); if (off) off();
-        const reply = c.type === 'group' ? { from: 'amine', texts: ['Merci Karim, c\'est noté !', 'Parfait, à très bientôt.'] } : { from: c.participantId, texts: ['Merci beaucoup Karim !', 'C\'est noté, à très vite.', 'Super, merci pour la réponse.'] };
+        const reply = c.type === 'group' ? { from: 'amine', texts: ['Merci Mohamed, c\'est noté !', 'Parfait, à très bientôt.'] } : { from: c.participantId, texts: ['Merci beaucoup Mohamed !', 'C\'est noté, à très vite.', 'Super, merci pour la réponse.'] };
         off = window.ui.chat(pane, { convId: c.id, me: 'karim', quick: ['Le support est en ligne ✔', 'Rendez-vous à 9 h salle Carthage', 'Merci pour votre retour !'], autoReply: reply });
         drawList();
       }
@@ -585,7 +585,7 @@
     const api = drawer({
       title: 'Smart Assist', cls: 'assist', width: 460,
       headHtml: `<div class="row" style="gap:12px;min-width:0"><span class="icon-chip as-chip">${icon('sparkles')}</span><div><span class="as-kick">LET'S GET SMART!</span><h3 class="as-title">Smart Assist</h3></div></div>`,
-      body: `<div class="assist-hero"><b>Bonjour Karim 👋</b><p class="small" style="margin-top:4px">Je prépare vos quiz, animations et synthèses. Choisissez une action ou posez-moi une question.</p></div>
+      body: `<div class="assist-hero"><b>Bonjour Mohamed 👋</b><p class="small" style="margin-top:4px">Je prépare vos quiz, animations et synthèses. Choisissez une action ou posez-moi une question.</p></div>
         <div class="as-actions" id="asActions">${[['quiz', 'help-circle', 'Générer un quiz', 'QCM prêts à injecter dans votre contenu'], ['animation', 'zap', 'Préparer une animation', 'Un temps fort pour relancer le groupe'], ['feedbacks', 'message-square', 'Synthétiser les feedbacks', 'Points forts et axes de progression'], ['activity', 'lightbulb', 'Concevoir une activité', 'Atelier clé en main, minuté']].map((a) => `<button class="assist-action" data-a="${a[0]}"><span class="icon-chip">${icon(a[1], { cls: 'sm' })}</span><span><b>${a[2]}</b><span class="small muted" style="display:block">${a[3]}</span></span></button>`).join('')}</div>
         <div class="as-log" id="asLog" aria-live="polite"></div>`,
       foot: `<form class="as-form" id="asForm"><label class="sr-only" for="asIn">Votre demande</label><input class="input" id="asIn" placeholder="Ex. Génère-moi un quiz de 5 questions sur la 5G SA" autocomplete="off"><button class="btn btn-teal btn-icon" aria-label="Envoyer">${icon('send')}</button></form><p class="xs dim" style="margin-top:8px;text-align:center">Réponses simulées — maquette</p>`,

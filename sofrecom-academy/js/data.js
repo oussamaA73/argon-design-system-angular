@@ -8,26 +8,26 @@ window.SFA_TODAY = '2026-11-12';
 window.SFA_FIL_ROUGE = 's-cloud5g-1124';
 
 window.SFA_DEFAULT_DATA = {
-  version: 3,
+  version: 4,
 
   /* ---------- Les 3 comptes de démo ---------- */
   users: {
     sana: {
-      id: 'sana', name: 'Sana B.', fullName: 'Sana Belhadj', initials: 'SB', role: 'participant', roleLabel: 'Participant',
-      color: 'cyan', title: 'Ingénieure réseau · Direction Technique', home: '#/p/accueil',
+      id: 'sana', name: 'Hbib M.', fullName: 'Hbib Mahboub', initials: 'HM', role: 'participant', roleLabel: 'Participant',
+      color: 'cyan', title: 'Ingénierie réseau · Direction Technique', home: '#/p/accueil',
       pitch: '« Je veux monter en compétences sur la 5G et décrocher ma certification cloud. »',
       demo: ['Rechercher une formation et demander mon inscription', 'Signer ma présence et répondre au quiz', 'Évaluer la session (anonyme)'],
       badges: ['b-cloud', 'b-agile'], formationsSuivies: 2
     },
     karim: {
-      id: 'karim', name: 'Karim M.', fullName: 'Karim Mansouri', initials: 'KM', role: 'formateur', roleLabel: 'Formateur',
+      id: 'karim', name: 'Mohamed K.', fullName: 'Mohamed Korbosli', initials: 'MK', role: 'formateur', roleLabel: 'Formateur',
       color: 'blue', title: 'Formateur certifié depuis 2023 · Expert Cloud & Edge', home: '#/f/dashboard',
       pitch: '« Je n\'ai animé qu\'une formation cette année : mon badge est en sursis. »',
       demo: ['Déclarer mes dispos et me positionner sur une session', 'Animer la séance : présence, quiz, feedback', 'Suivre ma progression sans classement'],
       certifiedSince: '2023-01-15'
     },
     leila: {
-      id: 'leila', name: 'Leïla T.', fullName: 'Leïla Trabelsi', initials: 'LT', role: 'observateur', roleLabel: 'Observateur',
+      id: 'leila', name: 'Sihem Z.', fullName: 'Sihem Zorgani', initials: 'SZ', role: 'observateur', roleLabel: 'Observateur',
       color: 'purple', title: 'Responsable Sofrecom Academy', home: '#/o/cockpit',
       pitch: '« Je pilote la qualité et j\'accompagne les formateurs, sans les mettre en compétition. »',
       demo: ['Valider les nouvelles formations', 'Suivre les formateurs à risque de badge', 'Piloter remplissage, paiements et qualité']
@@ -223,7 +223,7 @@ window.SFA_DEFAULT_DATA = {
     { id: 's-data-0923', code: 'SFA-2026-0923', formationId: 'f-data', date: '2026-09-23', time: '09:00 – 17:00', location: 'Teams', format: 'Distanciel', trainerId: 'ines', min: 6, max: 14, status: 'terminée', inscrits: ['emma', 'lucie', 'julien', 'amine', 'rania', 'farah', 'yasmine', 'hatem', 'walid'], pending: [], attendance: {}, live: {} },
     { id: 's-cloud101-0520', code: 'SFA-2026-0520', formationId: 'f-cloud101', date: '2026-05-20', time: '09:00 – 17:00', location: 'Teams', format: 'Distanciel', trainerId: 'olivier', min: 6, max: 16, status: 'terminée', inscrits: ['sana', 'amine', 'walid', 'julien', 'farah', 'emma', 'oussema', 'nizar'], pending: [], attendance: {}, live: {} },
     { id: 's-fibre-0408', code: 'SFA-2026-0408', formationId: 'f-fibre', date: '2026-04-08', time: '09:00 – 17:00', location: 'Sfax', format: 'Présentiel', trainerId: 'youssef', min: 6, max: 12, status: 'annulée', inscrits: ['nizar', 'oussema', 'thomas'], pending: [], attendance: {}, live: {} },
-    /* Historique Karim 2025 (pour la courbe de progression) */
+    /* Historique Mohamed 2025 (pour la courbe de progression) */
     { id: 's-kube-2502', code: 'SFA-2025-0211', formationId: 'f-kube', date: '2025-02-11', time: '09:00 – 17:00', location: 'Teams', format: 'Distanciel', trainerId: 'karim', min: 6, max: 12, status: 'terminée', inscrits: [], pending: [], attendance: {}, live: {} },
     { id: 's-cloud101-2504', code: 'SFA-2025-0415', formationId: 'f-cloud101', date: '2025-04-15', time: '09:00 – 17:00', location: 'Teams', format: 'Distanciel', trainerId: 'karim', min: 6, max: 16, status: 'terminée', inscrits: [], pending: [], attendance: {}, live: {} },
     { id: 's-cloud5g-2506', code: 'SFA-2025-0612', formationId: 'f-cloud5g', date: '2025-06-12', time: '09:00 – 17:00', location: 'Tunis', format: 'Hybride', trainerId: 'karim', min: 6, max: 12, status: 'terminée', inscrits: [], pending: [], attendance: {}, live: {} },
@@ -286,7 +286,7 @@ window.SFA_DEFAULT_DATA = {
   ],
   /* KPI de la session fil rouge (affichés en After) */
   kpis: { 's-cloud5g-1124': { satisfaction: 4.6, presence: 89, reussite: 78, recommandation: 92 } },
-  /* Historique personnel Karim (6 dernières sessions) — comparaison à soi-même uniquement */
+  /* Historique personnel Mohamed (6 dernières sessions) — comparaison à soi-même uniquement */
   trainerHistory: {
     karim: [
       { label: 'Kubernetes', date: '2025-02-11', avg: 4.1 },
@@ -347,10 +347,10 @@ window.SFA_DEFAULT_DATA = {
   /* ---------- Chat ---------- */
   conversations: [
     {
-      id: 'c-sana', sessionId: 's-cloud5g-1124', type: 'direct', participantId: 'sana', trainerId: 'karim', title: 'Sana B.',
+      id: 'c-sana', sessionId: 's-cloud5g-1124', type: 'direct', participantId: 'sana', trainerId: 'karim', title: 'Hbib M.',
       messages: [
-        { from: 'sana', text: 'Bonjour Karim, faut-il préparer quelque chose avant la session du 24 ?', at: '2026-11-10T09:12' },
-        { from: 'karim', text: 'Bonjour Sana ! Relisez simplement la fiche mémo Cloud Fundamentals, je partagerai le support la veille.', at: '2026-11-10T10:03' }
+        { from: 'sana', text: 'Bonjour Mohamed, faut-il préparer quelque chose avant la session du 24 ?', at: '2026-11-10T09:12' },
+        { from: 'karim', text: 'Bonjour Hbib ! Relisez simplement la fiche mémo Cloud Fundamentals, je partagerai le support la veille.', at: '2026-11-10T10:03' }
       ]
     },
     {
