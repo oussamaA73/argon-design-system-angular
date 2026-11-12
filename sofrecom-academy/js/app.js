@@ -344,6 +344,8 @@
   setInterval(() => { if (!Store.state.paused && Store.user) Store.emit('tick'); }, 8000);
 
   window.addEventListener('hashchange', () => render());
+  /* Mobile : clic hors du menu latéral → fermeture */
+  document.addEventListener('click', (e) => { if (document.body.classList.contains('nav-open') && !e.target.closest('.sidebar') && !e.target.closest('#menuToggle')) document.body.classList.remove('nav-open'); });
   document.addEventListener('DOMContentLoaded', () => {
     // ?as=karim permet d'ouvrir directement un rôle (liens du hub)
     const as = new URLSearchParams(location.search).get('as');
