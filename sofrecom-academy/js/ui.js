@@ -191,14 +191,14 @@
   function trend(points, opts = {}) {
     const W = opts.width || 560, H = opts.height || 200, pad = { l: 34, r: 16, t: 22, b: 32 };
     const min = opts.min != null ? opts.min : 3.5, max = opts.max != null ? opts.max : 5;
-    const x = (i) => pad.l + (i * (W - pad.l - pad.r)) / Math.max(1, points.length - 1);
+    const inset = 22; const x = (i) => pad.l + inset + (i * (W - pad.l - pad.r - 2 * inset)) / Math.max(1, points.length - 1);
     const y = (v) => pad.t + (1 - (v - min) / (max - min)) * (H - pad.t - pad.b);
     const line = points.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(' ');
     const area = `${line} L${x(points.length - 1).toFixed(1)},${H - pad.b} L${x(0).toFixed(1)},${H - pad.b} Z`;
     const gid = 'trendGrad';
     let g = '';
     for (let v = min; v <= max + 0.001; v += 0.5) g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${pad.l - 8}" y="${y(v) + 4}" text-anchor="end">${Store.fmtNum(v)}</text>`;
-    const ref = opts.ref != null ? `<line class="t-ref" x1="${pad.l}" x2="${W - pad.r}" y1="${y(opts.ref)}" y2="${y(opts.ref)}"/><text x="${W - pad.r}" y="${y(opts.ref) - 6}" text-anchor="end">${esc(opts.refLabel || 'Repère Academy (anonymisé)')} · ${Store.fmtNum(opts.ref)}</text>` : '';
+    const ref = opts.ref != null ? `<line class="t-ref" x1="${pad.l}" x2="${W - pad.r}" y1="${y(opts.ref)}" y2="${y(opts.ref)}"/><text class="t-ref-label" x="${W - pad.r}" y="${y(opts.ref) + 15}" text-anchor="end">${esc(opts.refLabel || 'Repère Academy (anonymisé)')} · ${Store.fmtNum(opts.ref)}</text>` : '';
     const dots = points.map((p, i) => `<circle class="t-dot${i === points.length - 1 ? ' last' : ''}" cx="${x(i)}" cy="${y(p.value)}" r="${i === points.length - 1 ? 5.5 : 4}"><title>${esc(p.label)} : ${Store.fmtNum(p.value)}</title></circle><text class="t-val" x="${x(i)}" y="${y(p.value) - 10}" text-anchor="middle">${Store.fmtNum(p.value)}</text><text x="${x(i)}" y="${H - 10}" text-anchor="middle">${esc(p.label)}</text>`).join('');
     return `<svg class="trend" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.label || 'Évolution')}"><defs><linearGradient id="${gid}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--teal)" stop-opacity=".22"/><stop offset="1" stop-color="var(--teal)" stop-opacity="0"/></linearGradient></defs>${g}${ref}<path class="t-area" d="${area}" fill="url(#${gid})"/><path class="t-line" d="${line}"/>${dots}</svg>`;
   }

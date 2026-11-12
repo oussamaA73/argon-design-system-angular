@@ -156,3 +156,5 @@
 .nc-meta { line-height: 1.5; gap: 6px; }
 .nc-meta .ico { color: var(--cyan-ink); margin-right: 4px; }
 .next-card .gauge { margin-top: 18px; }
+.file-row .dim { white-space: nowrap; }
+.next-card .gauge, .sess-card .gauge { margin-top: 30px; }
