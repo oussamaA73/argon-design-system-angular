@@ -229,6 +229,8 @@
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
   const overlayStack = [];
+  /** Ferme toutes les modales / drawers ouverts (ex. au changement d'utilisateur) */
+  function closeAll() { [...overlayStack].reverse().forEach((o) => o.close()); }
   document.addEventListener('keydown', (e) => {
     const top = overlayStack[overlayStack.length - 1];
     if (!top) return;
@@ -382,5 +384,5 @@
       <span><span class="sf-word">sofrecom</span><span class="sf-sub">${esc(opts.sub || 'Academy')}</span></span></a>`;
   }
 
-  window.ui = { icon, esc, avatar, avatarStack, pill, rolePill, statusPill, eyebrow, pageHead, stat, gauge, progress, stars, rating, scoreBar, empty, banner, trend, bars, toast, modal, confirm, drawer, bindTabs, tabsHtml, tabPanel, chat, stagger, logo, colorVar, ICONS: P };
+  window.ui = { closeAll, icon, esc, avatar, avatarStack, pill, rolePill, statusPill, eyebrow, pageHead, stat, gauge, progress, stars, rating, scoreBar, empty, banner, trend, bars, toast, modal, confirm, drawer, bindTabs, tabsHtml, tabPanel, chat, stagger, logo, colorVar, ICONS: P };
 })();

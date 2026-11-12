@@ -292,6 +292,7 @@
   function switchUser(id, opts = {}) {
     const u = Store.data.users[id]; if (!u) return;
     const changed = !Store.user || Store.user.id !== id;
+    if (changed) { window.ui.closeAll(); closePop(); }
     Store.setUser(id);
     document.body.dataset.user = id;
     const root = document.getElementById('root'); root.dataset.user = ''; // force re-render shell
