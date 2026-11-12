@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Training Factory — maquette</title>
+<style>
+  :root {
+    --orange: #ff7900;
+    --orange-text: #f16e00;
+    --black: #000;
+    --white: #fff;
+    --grey-100: #f6f6f6;
+    --grey-300: #ddd;
+    --grey-600: #666;
+    --green: #32c832;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--black);
+    background: var(--white);
+    line-height: 1.45;
+  }
+  a { color: inherit; }
+
+  /* Header */
+  .topbar { background: var(--black); color: var(--white); }
+  .topbar-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: center; gap: 24px; min-height: 64px; flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 20px; }
+  .brand-mark { width: 32px; height: 32px; background: var(--orange); display: block; }
+  .user { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--white); color: var(--black);
+    display: grid; place-items: center; font-weight: 700; font-size: 13px;
+  }
+
+  /* Role switcher */
+  .roles { border-bottom: 2px solid var(--black); }
+  .roles-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: flex-end; gap: 4px; flex-wrap: wrap;
+  }
+  .roles-label { font-size: 13px; color: var(--grey-600); padding: 14px 12px 14px 0; }
+  .role-tab {
+    font: inherit; font-weight: 700; font-size: 16px;
+    background: none; border: 0; border-bottom: 4px solid transparent;
+    padding: 14px 16px 10px; cursor: pointer;
+  }
+  .role-tab:hover { color: var(--orange-text); }
+  .role-tab[aria-selected="true"] { border-bottom-color: var(--orange); color: var(--orange-text); }
+
+  /* Content */
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 34px; line-height: 1.1; margin: 0 0 6px; letter-spacing: -0.5px; }
+  .lead { color: var(--grey-600); margin: 0 0 28px; }
+  h2 { font-size: 20px; margin: 36px 0 14px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .stat { border: 2px solid var(--black); padding: 16px; }
+  .stat-value { font-size: 34px; font-weight: 700; line-height: 1; }
+  .stat-label { font-size: 14px; color: var(--grey-600); margin-top: 6px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .card { background: var(--grey-100); padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .card h3 { margin: 0; font-size: 18px; }
+  .meta { font-size: 14px; color: var(--grey-600); }
+  .tag {
+    align-self: flex-start; font-size: 12px; font-weight: 700;
+    padding: 2px 8px; background: var(--black); color: var(--white);
+  }
+  .tag.orange { background: var(--orange); color: var(--black); }
+  .progress { height: 6px; background: var(--grey-300); }
+  .progress > span { display: block; height: 100%; background: var(--orange); }
+
+  .btn {
+    font: inherit; font-weight: 700; font-size: 14px; cursor: pointer;
+    padding: 8px 16px; border: 2px solid var(--black); background: var(--white); color: var(--black);
+    align-self: flex-start; margin-top: 6px;
+  }
+  .btn:hover { background: var(--black); color: var(--white); }
+  .btn.primary { background: var(--orange); border-color: var(--orange); }
+  .btn.primary:hover { background: var(--black); border-color: var(--black); }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+  th { text-align: left; border-bottom: 2px solid var(--black); padding: 10px 12px; }
+  td { border-bottom: 1px solid var(--grey-300); padding: 10px 12px; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .panel[hidden] { display: none; }
+  footer { border-top: 1px solid var(--grey-300); padding: 16px 20px; font-size: 13px; color: var(--grey-600); text-align: center; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Training Factory</div>
+    <div class="user"><span>Sami Ben Ali</span><span class="avatar" aria-hidden="true">SB</span></div>
+  </div>
+</header>
+
+<nav class="roles" aria-label="Rôle actif">
+  <div class="roles-inner" role="tablist">
+    <span class="roles-label">Mes rôles :</span>
+    <!-- Onglets générés à partir des rôles de l'utilisateur -->
+  </div>
+</nav>
+
+<main>
+  <!-- PARTICIPANT -->
+  <section class="panel" id="panel-participant" role="tabpanel">
+    <h1>Mes formations</h1>
+    <p class="lead">Suivez vos sessions et votre progression.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-value">3</div><div class="stat-label">Formations en cours</div></div>
+      <div class="stat"><div class="stat-value">7</div><div class="stat-label">Formations terminées</div></div>
+      <div class="stat"><div class="stat-value">42 h</div><div class="stat-label">Heures suivies en 2026</div></div>
+    </div>
+    <h2>En cours</h2>
+    <div class="cards">
+      <article class="card">
+        <span class="tag orange">Demain · 09:00</span>
+        <h3>Angular avancé</h3>
+        <div class="meta">Formateur : N. Trabelsi · Salle B2</div>
+        <div class="progress" aria-label="Progression 60 %"><span style="width:60%"></span></div>
+        <button class="btn primary">Continuer</button>
+      </article>
+      <article class="card">
+        <span class="tag">18 nov.</span>
+        <h3>Gestion de projet agile</h3>
+        <div class="meta">Formateur : L. Martin · À distance</div>
+        <div class="progress" aria-label="Progression 25 %"><span style="width:25%"></span></div>
+        <button class="btn">Voir le détail</button>
+      </article>
+      <article class="card">
+        <span class="tag">À évaluer</span>
+        <h3>Sécurité des applications</h3>
+        <div class="meta">Terminée le 5 nov.</div>
+        <div class="progress" aria-label="Progression 100 %"><span style="width:100%"></span></div>
+        <button class="btn">Donner mon avis</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- FORMATEUR -->
+  <section class="panel" id="panel-formateur" role="tabpanel" hidden>
+    <h1>Mes sessions</h1>
+    <p class="lead">Préparez vos sessions, faites l'appel et évaluez les participants.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-value">2</div><div class="stat-label">Sessions cette semaine</div></div>
+      <div class="stat"><div class="stat-value">28</div><div class="stat-label">Participants inscrits</div></div>
+      <div class="stat"><div class="stat-value">4,6 / 5</div><div class="stat-label">Note moyenne reçue</div></div>
+    </div>
+    <h2>Prochaines sessions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Formation</th><th>Date</th><th>Lieu</th><th class="num">Inscrits</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Angular avancé</td><td>13 nov. · 09:00</td><td>Salle B2</td><td class="num">12 / 15</td><td><button class="btn primary">Faire l'appel</button></td></tr>
+          <tr><td>Introduction à TypeScript</td><td>16 nov. · 14:00</td><td>À distance</td><td class="num">16 / 20</td><td><button class="btn">Préparer</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn" style="margin-top:20px">+ Nouvelle session</button>
+  </section>
+
+  <!-- OBSERVATEUR -->
+  <section class="panel" id="panel-observateur" role="tabpanel" hidden>
+    <h1>Suivi de l'équipe</h1>
+    <p class="lead">Vue manager / responsable formation : participation et résultats.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-value">14</div><div class="stat-label">Collaborateurs suivis</div></div>
+      <div class="stat"><div class="stat-value">86 %</div><div class="stat-label">Taux de présence</div></div>
+      <div class="stat"><div class="stat-value">71 %</div><div class="stat-label">Plan de formation réalisé</div></div>
+    </div>
+    <h2>Collaborateurs</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Collaborateur</th><th>Formation en cours</th><th class="num">Présence</th><th class="num">Progression</th></tr></thead>
+        <tbody>
+          <tr><td>Amira K.</td><td>Angular avancé</td><td class="num">100 %</td><td class="num">60 %</td></tr>
+          <tr><td>Youssef M.</td><td>Gestion de projet agile</td><td class="num">75 %</td><td class="num">25 %</td></tr>
+          <tr><td>Claire D.</td><td>Sécurité des applications</td><td class="num">90 %</td><td class="num">100 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn" style="margin-top:20px">Exporter le rapport</button>
+  </section>
+</main>
+
+<footer>Maquette — données fictives</footer>
+
+<script>
+  // Un même utilisateur peut cumuler plusieurs rôles.
+  const ROLES = {
+    participant: 'Participant',
+    formateur: 'Formateur',
+    observateur: 'Observateur'
+  };
+  const currentUser = { name: 'Sami Ben Ali', roles: ['participant', 'formateur', 'observateur'] };
+
+  const tablist = document.querySelector('.roles-inner');
+
+  function selectRole(role) {
+    tablist.querySelectorAll('.role-tab').forEach(t =>
+      t.setAttribute('aria-selected', String(t.dataset.role === role)));
+    document.querySelectorAll('.panel').forEach(p => { p.hidden = p.id !== 'panel-' + role; });
+  }
+
+  currentUser.roles.forEach(role => {
+    const tab = document.createElement('button');
+    tab.className = 'role-tab';
+    tab.setAttribute('role', 'tab');
+    tab.dataset.role = role;
+    tab.textContent = ROLES[role];
+    tab.addEventListener('click', () => selectRole(role));
+    tablist.appendChild(tab);
+  });
+
+  selectRole(currentUser.roles[0]);
+</script>
+</body>
+</html>
