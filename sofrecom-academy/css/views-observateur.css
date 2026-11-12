@@ -61,3 +61,14 @@
   .o-split { grid-template-columns: minmax(0, 1fr); }
   .o-sections { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ajustements mise en page */
+.o-main { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+@media (max-width: 900px) { .o-main { grid-template-columns: minmax(0, 1fr); } }
+.o-gauge .gauge-legend span:last-child { display: none; }
+.o-q { min-width: 980px; }
+.o-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; line-height: 1.3; }
+.o-tag .ico { flex: none; }
+.o-strength { color: var(--teal-ink); }
+.o-axis { color: var(--blue-d); }
+.o-q td:first-child { min-width: 150px; }

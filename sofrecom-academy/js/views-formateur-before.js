@@ -406,10 +406,10 @@
         ['title', 'theme', 'level', 'format', 'audience', 'objectives', 'syllabus', 'description'].forEach((k) => { const v = g('w6-' + k); if (v !== null) form[k] = v; });
         const d = g('w6-durationDays'); if (d !== null) form.durationDays = Math.max(1, Math.min(5, Number(d) || 1));
       }
-      function stepper() { return `<ol class="steps reveal" aria-label="Étapes">${labels.map((l, i) => `<li class="step ${i === step ? 'is-active' : i < step ? 'is-done' : ''}" ${i === step ? 'aria-current="step"' : ''}><span class="badge">${i < step ? icon('check', { cls: 'sm' }) : i + 1}</span>${l}</li>`).join('')}</ol>`; }
+      function stepper() { return `<ol class="steps" aria-label="Étapes">${labels.map((l, i) => `<li class="step ${i === step ? 'is-active' : i < step ? 'is-done' : ''}" ${i === step ? 'aria-current="step"' : ''}><span class="badge">${i < step ? icon('check', { cls: 'sm' }) : i + 1}</span>${l}</li>`).join('')}</ol>`; }
       function draw() {
         if (done) {
-          root.innerHTML = `<section class="card success reveal">${`<span class="icon-chip" style="--accent:var(--green-ok)">${icon('check-circle', { cls: 'lg' })}</span>`}<h2>Proposition envoyée</h2><p class="muted">« ${esc(done.title)} » a été transmise à l'équipe Academy.</p><div>${statusPill('en_attente')}</div><div class="row gap-1 wrap center"><a class="btn btn-primary" href="#/before/formations">Voir Mes formations</a><a class="btn btn-ghost" href="#/f/dashboard">Tableau de bord</a></div></section>`; return;
+          root.innerHTML = `<section class="card success">${`<span class="icon-chip" style="--accent:var(--green-ok)">${icon('check-circle', { cls: 'lg' })}</span>`}<h2>Proposition envoyée</h2><p class="muted">« ${esc(done.title)} » a été transmise à l'équipe Academy.</p><div>${statusPill('en_attente')}</div><div class="row gap-1 wrap center"><a class="btn btn-primary" href="#/before/formations">Voir Mes formations</a><a class="btn btn-ghost" href="#/f/dashboard">Tableau de bord</a></div></section>`; return;
         }
         let body = '';
         if (step === 0) body = `<div class="form-grid">
@@ -431,7 +431,7 @@
         }
         if (step === 2) body = `<div class="summary"><h3>${esc(form.title)}</h3><div class="row wrap gap-1 mt-1">${pill(form.theme, 'blue')}${pill(form.level, 'teal')}${pill(form.format, 'outline')}${pill(form.durationDays + ' jour' + (form.durationDays > 1 ? 's' : ''), 'outline')}</div>
           <p class="mt-2">${esc(form.description)}</p><dl class="dl"><dt>Public</dt><dd>${esc(form.audience)}</dd><dt>Objectifs</dt><dd><ul>${lines(form.objectives).map((o) => `<li>${esc(o)}</li>`).join('')}</ul></dd><dt>Programme</dt><dd><ul>${lines(form.syllabus).map((o) => `<li>${esc(o)}</li>`).join('')}</ul></dd><dt>Prérequis</dt><dd>${form.prerequisites.length ? form.prerequisites.map((p) => esc(p.label)).join(', ') : 'Aucun'}</dd></dl></div>`;
-        root.innerHTML = `${stepper()}<section class="card reveal"><h3 class="mb-2">${['Informations générales', 'Prérequis', 'Récapitulatif avant envoi'][step]}</h3>${body}
+        root.innerHTML = `${stepper()}<section class="card"><h3 class="mb-2">${['Informations générales', 'Prérequis', 'Récapitulatif avant envoi'][step]}</h3>${body}
           <div class="row between wrap mt-3"><button class="btn btn-ghost" id="w6prev" ${step === 0 ? 'disabled' : ''}>${icon('arrow-left', { cls: 'sm' })} Précédent</button>${step < 2 ? `<button class="btn btn-primary" id="w6next">Continuer ${icon('arrow-right', { cls: 'sm' })}</button>` : '<button class="btn btn-primary" id="w6submit">Soumettre à l\'équipe Academy</button>'}</div></section>`;
         bind();
       }
@@ -488,14 +488,14 @@
       function drawQuiz() {
         const qz = content().quiz;
         el.querySelector('#w7qn').textContent = `${qz.length} question${qz.length > 1 ? 's' : ''}`;
-        el.querySelector('#w7quiz').innerHTML = qz.length ? qz.map((q, i) => `<article class="card q-card reveal ${q.generated && !q._ack ? 'flash-in' : ''}" data-qi="${i}">
+        el.querySelector('#w7quiz').innerHTML = qz.length ? qz.map((q, i) => `<article class="card q-card ${q.generated && !q._ack ? 'flash-in' : ''}" data-qi="${i}">
           <div class="row between wrap"><div class="row gap-1"><span class="q-num">${i + 1}</span>${q.generated ? pill('Généré par Smart Assist', 'teal', { icon: 'sparkles' }) : ''}</div><button class="btn btn-ghost btn-icon btn-sm" data-delq="${i}" aria-label="Supprimer la question ${i + 1}">${icon('trash', { cls: 'sm' })}</button></div>
           <div class="field mt-1"><label for="q${i}">Question</label><textarea class="textarea" id="q${i}" rows="2" data-f="q">${esc(q.q)}</textarea></div>
           <fieldset class="opts"><legend class="label">Réponses — cochez la bonne</legend>${q.options.map((o, j) => `<div class="opt ${q.answer === j ? 'is-right' : ''}"><input type="radio" name="ans${i}" value="${j}" ${q.answer === j ? 'checked' : ''} aria-label="Bonne réponse : option ${j + 1}"><label class="sr-only" for="q${i}o${j}">Option ${j + 1}</label><input class="input" id="q${i}o${j}" data-f="o" data-j="${j}" value="${esc(o)}" placeholder="Option ${j + 1}"></div>`).join('')}</fieldset></article>`).join('')
           : empty({ icon: 'help-circle', title: 'Aucune question', text: 'Ajoutez une question ou laissez Smart Assist en proposer.' });
         setTimeout(() => { content().quiz.forEach((x) => { if (x.generated) x._ack = true; }); }, 1500);
       }
-      const redraw = () => { drawFiles(); drawQuiz(); ui.stagger(el); };
+      const redraw = () => { drawFiles(); drawQuiz(); };
       redraw();
       const quizBox = el.querySelector('#w7quiz');
       quizBox.addEventListener('input', (e) => { // saisie : persistance sans re-render (pas de perte de focus)

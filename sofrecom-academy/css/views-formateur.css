@@ -118,3 +118,4 @@ a.cal-event:hover { background: color-mix(in srgb, var(--ev, var(--blue)) 24%, w
 .opt input[type="radio"] { width: 18px; height: 18px; accent-color: var(--green-ok); flex: none; }
 .opt.is-right { border-color: color-mix(in srgb, var(--green-ok) 40%, white); background: color-mix(in srgb, var(--green-ok) 7%, white); }
 @media (max-width: 640px) { .opts { grid-template-columns: minmax(0, 1fr); } }
+.open-card .gauge { margin-top: 14px; }

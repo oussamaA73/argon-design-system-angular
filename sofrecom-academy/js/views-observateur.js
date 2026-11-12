@@ -90,12 +90,12 @@
         return `<div class="${redraw ? 'o-redraw' : ''}">
         ${sc === 'alerte' && urgent ? banner({ color: 'red', icon: 'alert-triangle', role: 'alert', html: `<b>${urgent} point${urgent > 1 ? 's' : ''} d'attention prioritaire${urgent > 1 ? 's' : ''}</b> — des sessions n'ont pas d'animateur ou une alerte logistique est remontée de la séance.`, actions: '<a class="btn btn-sm btn-soft" href="#/o/sessions">Traiter</a>' }) + '<div class="mt-2"></div>' : ''}
         <div class="grid-4">
-          ${stat({ i: 0, icon: 'calendar', color: 'blue', label: 'Sessions du mois', num: monthCount, sub: `${ups.length} à venir · ${Store.MONTHS_LONG[+month.slice(5) - 1]}` })}
+          ${stat({ i: 0, icon: 'calendar', color: 'blue', label: 'Sessions du mois', num: monthCount, sub: `${Store.MONTHS_LONG[+month.slice(5) - 1]} ${month.slice(0, 4)} · hors annulées` })}
           ${stat({ i: 1, icon: 'users', color: 'teal', label: 'Remplissage moyen', num: `${avgFill}<small> %</small>`, sub: 'sur les sessions à venir' })}
           ${stat({ i: 2, icon: 'star', color: 'orange', label: 'Satisfaction moyenne', num: `${fmt1(sat)}<small> / 5</small>`, sub: `repère Academy ${fmt1(Store.data.academyAverage)}` })}
           ${stat({ i: 3, icon: 'badge-check', color: 'purple', label: 'Formateurs actifs', num: `${actifs}<small> / ${tr.length}</small>`, sub: 'badge formateur actif en 2026' })}
         </div>
-        <div class="grid-main mt-3">
+        <div class="grid-main o-main mt-3">
           <div class="card reveal" style="--i:4">
             <div class="card-title"><h3>Remplissage des sessions à venir</h3>
               <span class="o-key"><i style="--k:var(--orange)"></i>Sous le minimum<i style="--k:var(--teal)"></i>Complet<i style="--k:var(--blue)"></i>En cours</span></div>
@@ -107,7 +107,7 @@
               <li class="o-alert ${fresh.has(a.key) ? 'flash-in' : ''}" style="--accent:${ui.colorVar(a.color)}">
                 <span class="icon-chip">${icon(a.icon, { cls: 'sm' })}</span>
                 <div class="grow"><b>${esc(a.title)}</b><span class="small muted">${esc(a.text)}</span></div>
-                <a class="btn btn-ghost btn-sm" href="${a.href}" aria-label="${esc(a.cta)} : ${esc(a.title)}">${esc(a.cta)}${icon('arrow-right', { cls: 'sm' })}</a>
+                <a class="btn btn-ghost btn-icon btn-sm" href="${a.href}" title="${esc(a.cta)}" aria-label="${esc(a.cta)} : ${esc(a.title)}">${icon('arrow-right', { cls: 'sm' })}</a>
               </li>`).join('')}</ul>`
               : empty({ icon: 'check-circle', color: 'ok', title: 'Rien à signaler', text: 'Toutes les sessions sont couvertes. Beau travail !' })}
           </div>
@@ -222,6 +222,7 @@
           const dec = b.dataset.dec, comment = (ta ? ta.value : '').trim();
           if (dec !== 'validée' && !comment) { err = true; draft = ta.value; draw(); host.querySelector('#o2-comment').focus(); toast('Un commentaire est nécessaire pour cette décision.', 'warn'); return; }
           const p = Store.data.proposals.find((x) => x.id === selected);
+          if (!p) return;
           Store.decideProposal(p.id, dec, comment);
           draft = ''; err = false; selected = null;
           const msg = { 'validée': `« ${esc(p.title)} » validée — ${esc(nameOf(p.authorId))} est notifié(e). Retrouvez-la dans l'onglet Traitées.`, modifs: `Modifications demandées à ${esc(nameOf(p.authorId))} — dossier déplacé dans Traitées.`, 'refusée': `Proposition refusée — ${esc(nameOf(p.authorId))} reçoit votre commentaire.` }[dec];
@@ -361,7 +362,7 @@
               const f = Store.fill(s), st = sessState(s), e = entraideOf(s.id);
               const key = s.id + ':' + f.n, isNew = !seen.has(key);
               return `<tr class="${isNew ? 'flash-in' : ''}">
-                <td><b>${esc(TITLE(s))}</b><div class="xs muted">${esc(s.location.split('—')[0].trim())} · ${esc(s.format)} · <span class="id-tag">${esc(s.code)}</span></div></td>
+                <td><b title="${esc(TITLE(s))}">${esc(SHORT(s))}</b><div class="xs muted">${esc(s.location.split('—')[0].trim())} · ${esc(s.format)}</div></td>
                 <td style="white-space:nowrap"><b>${Store.fmtDateShort(s.date)}</b><div class="xs muted">J-${Store.daysUntil(s.date)}</div></td>
                 <td>${s.trainerId ? `<div class="person">${avatar(s.trainerId, { size: 'sm' })}<span>${esc(nameOf(s.trainerId))}</span></div>` : pill('Sans animateur', 'red', { dot: true })}</td>
                 <td class="o-gauge">${gauge({ value: f.n, min: s.min, max: s.max, label: 'Inscrits ' + TITLE(s) })}</td>
@@ -527,13 +528,13 @@
           <div class="table-wrap reveal" style="--i:4"><table class="table o-q">
             <thead><tr><th>Formation</th><th style="min-width:130px">À chaud</th><th style="min-width:130px">À froid</th><th class="num-cell">Réponses</th><th>Tendance</th><th>Point fort</th><th>Axe de progression</th><th></th></tr></thead>
             <tbody>${q.map((r) => `<tr>
-              <td><b>${esc(Store.formation(r.formationId).title)}</b></td>
+              <td><b title="${esc(Store.formation(r.formationId).title)}">${esc(Store.formation(r.formationId).short)}</b></td>
               <td><div class="o-score">${scoreBar(r.hot)}<b>${fmt1(r.hot)}</b></div></td>
               <td><div class="o-score">${scoreBar(r.cold)}<b>${fmt1(r.cold)}</b></div></td>
               <td class="num-cell">${r.answers}</td><td>${spark(r.trend)}</td>
-              <td>${pill(r.strength, 'teal', { icon: 'thumbs-up' })}</td>
-              <td>${pill(r.axis, 'blue', { icon: 'target' })}</td>
-              <td><button class="btn btn-ghost btn-sm" data-coach="${r.formationId}">${icon('hand-heart', { cls: 'sm' })}Proposer un coaching</button></td></tr>`).join('')}</tbody></table></div>`
+              <td><span class="o-tag o-strength">${icon('thumbs-up', { cls: 'sm' })}${esc(r.strength)}</span></td>
+              <td><span class="o-tag o-axis">${icon('target', { cls: 'sm' })}${esc(r.axis)}</span></td>
+              <td><button class="btn btn-ghost btn-sm" data-coach="${r.formationId}" title="Proposer un coaching">${icon('hand-heart', { cls: 'sm' })}Coaching</button></td></tr>`).join('')}</tbody></table></div>`
           : '<div class="mt-3">' + empty({ icon: 'star', color: 'teal', title: 'Pas encore d\'évaluations', text: 'Les évaluations à chaud et à froid alimenteront cette vue.' }) + '</div>'}
           ${verb.length ? `<div class="section-title"><h2>Verbatims anonymisés</h2><span class="pill outline">${icon('lock', { cls: 'sm' })}Anonymes</span></div>
             <div class="grid-2">${verb.slice(0, 6).map((e, i) => `<figure class="o-quote reveal" style="--i:${i}"><blockquote>« ${esc(e.comment)} »</blockquote><figcaption>${esc(SHORT(Store.session(e.sessionId)))} · participant</figcaption></figure>`).join('')}</div>` : ''}

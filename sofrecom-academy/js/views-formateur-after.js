@@ -133,7 +133,7 @@
           if (st === 'closed') {
             const avg = ids.length ? ids.reduce((a, p) => a + res[p].score / res[p].total, 0) / ids.length : 0;
             h += `<div class="ws-score mt-2"><span class="ws-score-v">${Math.round(avg * 100)} %</span><span class="small muted">Score moyen · ${f1(avg * quizTotal)} / ${quizTotal} · ${ids.length} réponse${ids.length > 1 ? 's' : ''}</span></div>`;
-          } else h += `<button class="btn btn-ghost btn-block mt-2" id="quizStop">${icon('square')}Clore le quiz</button>`;
+          } else h += `<button class="btn btn-ghost btn-block mt-2" id="quizStop">${icon('lock')}Clore le quiz</button>`;
         }
         $('#quizPanel').innerHTML = h;
         const go = $('#quizGo'); if (go) go.addEventListener('click', launchQuiz);
@@ -379,7 +379,7 @@
         const rows = voucherFilter === 'pending' ? pend : done;
         const box = el.querySelector('#vList');
         if (ctx.scenario === 'vide' || !rows.length) { box.innerHTML = `<div class="card">${empty({ icon: 'ticket', color: 'teal', title: voucherFilter === 'pending' ? 'Aucune demande en attente' : 'Aucune demande traitée', text: voucherFilter === 'pending' ? 'Les demandes de vos apprenants apparaîtront ici.' : 'Les vouchers validés ou refusés seront listés ici.' })}</div>`; return; }
-        box.innerHTML = `<div class="table-wrap"><table class="table"><thead><tr><th>Apprenant</th><th>Certification</th><th>Session</th><th>Éligibilité</th><th>Demandé le</th><th>Statut</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>${rows.map((v) => {
+        box.innerHTML = `<div class="table-wrap"><table class="table"><thead><tr><th>Apprenant</th><th>Certification</th><th>Session</th><th>Éligibilité</th><th>Demandé le</th><th>Statut</th><th>Actions</th></tr></thead><tbody>${rows.map((v) => {
           const p = S.person(v.participantId); const ss = S.session(v.sessionId); const fm = ss ? S.formation(ss.formationId) : null;
           return `<tr data-id="${v.id}"><td><div class="person">${avatar(p, { size: 'sm' })}<div><b>${esc(p.fullName || p.name)}</b></div></div></td>
             <td><b>${esc(v.certification)}</b></td><td>${fm ? esc(fm.short) : '—'}<div class="xs dim">${ss ? S.fmtDateMid(ss.date) : ''}</div></td>
