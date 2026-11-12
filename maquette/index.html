@@ -4,118 +4,125 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Training Factory — maquette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --orange: #ff7900;
-    --orange-text: #f16e00;
-    --black: #000;
+    --cyan: #00a4e4;
+    --cyan-dark: #0081c6;
+    --navy: #20517d;
+    --pale: #f1f5f8;
+    --line: #d5dfe8;
+    --lime: #c4d82e;
     --white: #fff;
-    --grey-100: #f6f6f6;
-    --grey-300: #ddd;
-    --grey-600: #666;
-    --green: #32c832;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: var(--black);
+    font-family: "Nunito Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
+    color: var(--navy);
     background: var(--white);
-    line-height: 1.45;
+    line-height: 1.5;
   }
-  a { color: inherit; }
+  .wrap { max-width: 1110px; margin: 0 auto; padding: 0 20px; }
 
   /* Header */
-  .topbar { background: var(--black); color: var(--white); }
-  .topbar-inner {
-    max-width: 1100px; margin: 0 auto; padding: 0 20px;
-    display: flex; align-items: center; gap: 24px; min-height: 64px; flex-wrap: wrap;
+  .topbar-inner { display: flex; align-items: center; gap: 24px; min-height: 88px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 26px; color: var(--navy); }
+  .brand-mark {
+    width: 38px; height: 38px; border-radius: 50%; display: block;
+    background: linear-gradient(90deg, var(--navy) 50%, var(--cyan) 50%);
   }
-  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 20px; }
-  .brand-mark { width: 32px; height: 32px; background: var(--orange); display: block; }
-  .user { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .user { margin-left: auto; display: flex; align-items: center; gap: 12px; font-style: italic; font-size: 16px; }
   .avatar {
-    width: 32px; height: 32px; border-radius: 50%; background: var(--white); color: var(--black);
-    display: grid; place-items: center; font-weight: 700; font-size: 13px;
+    width: 40px; height: 40px; border-radius: 50%; background: var(--cyan); color: var(--white);
+    display: grid; place-items: center; font-weight: 700; font-style: normal; font-size: 14px;
   }
 
   /* Role switcher */
-  .roles { border-bottom: 2px solid var(--black); }
-  .roles-inner {
-    max-width: 1100px; margin: 0 auto; padding: 0 20px;
-    display: flex; align-items: flex-end; gap: 4px; flex-wrap: wrap;
-  }
-  .roles-label { font-size: 13px; color: var(--grey-600); padding: 14px 12px 14px 0; }
+  .roles-inner { display: flex; align-items: center; gap: 8px 36px; flex-wrap: wrap; padding-bottom: 28px; }
+  .roles-label { font-size: 15px; font-style: italic; }
   .role-tab {
-    font: inherit; font-weight: 700; font-size: 16px;
-    background: none; border: 0; border-bottom: 4px solid transparent;
-    padding: 14px 16px 10px; cursor: pointer;
+    font: inherit; font-style: italic; font-size: 19px; color: var(--cyan);
+    background: none; border: 0; border-bottom: 2px solid transparent; padding: 6px 0; cursor: pointer;
   }
-  .role-tab:hover { color: var(--orange-text); }
-  .role-tab[aria-selected="true"] { border-bottom-color: var(--orange); color: var(--orange-text); }
+  .role-tab:hover { color: var(--navy); }
+  .role-tab[aria-selected="true"] { color: var(--navy); font-weight: 700; border-bottom-color: var(--cyan); }
 
   /* Content */
-  main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; }
-  h1 { font-size: 34px; line-height: 1.1; margin: 0 0 6px; letter-spacing: -0.5px; }
-  .lead { color: var(--grey-600); margin: 0 0 28px; }
-  h2 { font-size: 20px; margin: 36px 0 14px; }
-
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
-  .stat { border: 2px solid var(--black); padding: 16px; }
-  .stat-value { font-size: 34px; font-weight: 700; line-height: 1; }
-  .stat-label { font-size: 14px; color: var(--grey-600); margin-top: 6px; }
-
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-  .card { background: var(--grey-100); padding: 18px; display: flex; flex-direction: column; gap: 8px; }
-  .card h3 { margin: 0; font-size: 18px; }
-  .meta { font-size: 14px; color: var(--grey-600); }
-  .tag {
-    align-self: flex-start; font-size: 12px; font-weight: 700;
-    padding: 2px 8px; background: var(--black); color: var(--white);
+  main.wrap { padding-top: 36px; padding-bottom: 72px; }
+  .title { display: flex; align-items: center; gap: 32px; margin-bottom: 8px; }
+  .title::after { content: ""; flex: 1; height: 1px; background: var(--navy); min-width: 40px; }
+  h1 {
+    font-size: 34px; line-height: 1.15; margin: 0;
+    font-weight: 700; font-style: italic; text-transform: uppercase; color: var(--cyan);
   }
-  .tag.orange { background: var(--orange); color: var(--black); }
-  .progress { height: 6px; background: var(--grey-300); }
-  .progress > span { display: block; height: 100%; background: var(--orange); }
+  .lead { margin: 0 0 28px; max-width: 720px; }
+  h2 { font-size: 30px; font-weight: 400; font-style: italic; margin: 44px 0 16px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+  .stat {
+    position: relative; overflow: hidden; background: var(--cyan); color: var(--white);
+    padding: 26px 22px; text-align: center;
+  }
+  .stat::after {
+    content: ""; position: absolute; right: -19px; bottom: -19px; width: 58px; height: 58px;
+    border-radius: 50%; background: var(--navy); opacity: .55;
+  }
+  .stat-value { font-size: 42px; font-weight: 600; line-height: 1.1; }
+  .stat-label { font-size: 18px; margin-top: 4px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; }
+  .card { background: var(--pale); padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+  .card h3 { margin: 0; font-size: 21px; font-weight: 600; }
+  .meta { font-size: 16px; }
+  .tag { align-self: flex-start; font-size: 15px; color: var(--cyan-dark); }
+  .tag.orange { background: var(--lime); color: var(--navy); padding: 1px 12px; border-radius: 50px; }
+  .progress { height: 6px; background: var(--line); border-radius: 50px; overflow: hidden; margin: 4px 0; }
+  .progress > span { display: block; height: 100%; background: var(--cyan); }
 
   .btn {
-    font: inherit; font-weight: 700; font-size: 14px; cursor: pointer;
-    padding: 8px 16px; border: 2px solid var(--black); background: var(--white); color: var(--black);
-    align-self: flex-start; margin-top: 6px;
+    font: inherit; font-weight: 700; font-style: italic; font-size: 16px; cursor: pointer;
+    padding: 9px 24px; border-radius: 50px; border: 1px solid var(--cyan);
+    background: var(--white); color: var(--cyan-dark);
+    align-self: flex-start; margin-top: 8px; white-space: nowrap;
   }
-  .btn:hover { background: var(--black); color: var(--white); }
-  .btn.primary { background: var(--orange); border-color: var(--orange); }
-  .btn.primary:hover { background: var(--black); border-color: var(--black); }
+  .btn:hover { background: var(--navy); border-color: var(--navy); color: var(--white); }
+  .btn.primary { background: var(--cyan); color: var(--white); }
+  .btn.primary:hover { background: var(--navy); }
+  td .btn { margin-top: 0; }
 
   .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
-  th { text-align: left; border-bottom: 2px solid var(--black); padding: 10px 12px; }
-  td { border-bottom: 1px solid var(--grey-300); padding: 10px 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 17px; min-width: 560px; }
+  th { text-align: left; font-weight: 700; border-bottom: 1px solid var(--navy); padding: 12px; }
+  td { border-bottom: 1px solid var(--line); padding: 12px; }
   .num { text-align: right; font-variant-numeric: tabular-nums; }
 
   .panel[hidden] { display: none; }
-  footer { border-top: 1px solid var(--grey-300); padding: 16px 20px; font-size: 13px; color: var(--grey-600); text-align: center; }
+  footer { background: var(--pale); padding: 28px 20px; font-size: 15px; font-style: italic; text-align: center; }
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <div class="topbar-inner">
+  <div class="topbar-inner wrap">
     <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Training Factory</div>
     <div class="user"><span>Sami Ben Ali</span><span class="avatar" aria-hidden="true">SB</span></div>
   </div>
 </header>
 
 <nav class="roles" aria-label="Rôle actif">
-  <div class="roles-inner" role="tablist">
+  <div class="roles-inner wrap" role="tablist">
     <span class="roles-label">Mes rôles :</span>
     <!-- Onglets générés à partir des rôles de l'utilisateur -->
   </div>
 </nav>
 
-<main>
+<main class="wrap">
   <!-- PARTICIPANT -->
   <section class="panel" id="panel-participant" role="tabpanel">
-    <h1>Mes formations</h1>
+    <div class="title"><h1>Mes formations</h1></div>
     <p class="lead">Suivez vos sessions et votre progression.</p>
     <div class="stats">
       <div class="stat"><div class="stat-value">3</div><div class="stat-label">Formations en cours</div></div>
@@ -150,7 +157,7 @@
 
   <!-- FORMATEUR -->
   <section class="panel" id="panel-formateur" role="tabpanel" hidden>
-    <h1>Mes sessions</h1>
+    <div class="title"><h1>Mes sessions</h1></div>
     <p class="lead">Préparez vos sessions, faites l'appel et évaluez les participants.</p>
     <div class="stats">
       <div class="stat"><div class="stat-value">2</div><div class="stat-label">Sessions cette semaine</div></div>
@@ -172,7 +179,7 @@
 
   <!-- OBSERVATEUR -->
   <section class="panel" id="panel-observateur" role="tabpanel" hidden>
-    <h1>Suivi de l'équipe</h1>
+    <div class="title"><h1>Suivi de l'équipe</h1></div>
     <p class="lead">Vue manager / responsable formation : participation et résultats.</p>
     <div class="stats">
       <div class="stat"><div class="stat-value">14</div><div class="stat-label">Collaborateurs suivis</div></div>
