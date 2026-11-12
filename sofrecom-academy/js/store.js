@@ -4,7 +4,7 @@
    croisés entre rôles (et entre portail.html / mobile.html).
    ===================================================================== */
 (function () {
-  const KEY = 'sfa-demo-data-v4';
+  const KEY = 'sfa-demo-data-v5';
   const SKEY = 'sfa-demo-state';
   const clone = (o) => JSON.parse(JSON.stringify(o));
 

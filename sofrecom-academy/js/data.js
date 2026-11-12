@@ -8,26 +8,26 @@ window.SFA_TODAY = '2026-11-12';
 window.SFA_FIL_ROUGE = 's-cloud5g-1124';
 
 window.SFA_DEFAULT_DATA = {
-  version: 4,
+  version: 5,
 
   /* ---------- Les 3 comptes de démo ---------- */
   users: {
     sana: {
-      id: 'sana', name: 'Hbib M.', fullName: 'Hbib Mahboub', initials: 'HM', role: 'participant', roleLabel: 'Participant',
+      id: 'sana', name: 'Hbib M.', fullName: 'Hbib M.', initials: 'HM', role: 'participant', roleLabel: 'Participant',
       color: 'cyan', title: 'Ingénierie réseau · Direction Technique', home: '#/p/accueil',
       pitch: '« Je veux monter en compétences sur la 5G et décrocher ma certification cloud. »',
       demo: ['Rechercher une formation et demander mon inscription', 'Signer ma présence et répondre au quiz', 'Évaluer la session (anonyme)'],
       badges: ['b-cloud', 'b-agile'], formationsSuivies: 2
     },
     karim: {
-      id: 'karim', name: 'Mohamed K.', fullName: 'Mohamed Korbosli', initials: 'MK', role: 'formateur', roleLabel: 'Formateur',
+      id: 'karim', name: 'Mohamed K.', fullName: 'Mohamed K.', initials: 'MK', role: 'formateur', roleLabel: 'Formateur',
       color: 'blue', title: 'Formateur certifié depuis 2023 · Expert Cloud & Edge', home: '#/f/dashboard',
       pitch: '« Je n\'ai animé qu\'une formation cette année : mon badge est en sursis. »',
       demo: ['Déclarer mes dispos et me positionner sur une session', 'Animer la séance : présence, quiz, feedback', 'Suivre ma progression sans classement'],
       certifiedSince: '2023-01-15'
     },
     leila: {
-      id: 'leila', name: 'Sihem Z.', fullName: 'Sihem Zorgani', initials: 'SZ', role: 'observateur', roleLabel: 'Observateur',
+      id: 'leila', name: 'Sihem Z.', fullName: 'Sihem Z.', initials: 'SZ', role: 'observateur', roleLabel: 'Observateur',
       color: 'purple', title: 'Responsable Sofrecom Academy', home: '#/o/cockpit',
       pitch: '« Je pilote la qualité et j\'accompagne les formateurs, sans les mettre en compétition. »',
       demo: ['Valider les nouvelles formations', 'Suivre les formateurs à risque de badge', 'Piloter remplissage, paiements et qualité']
