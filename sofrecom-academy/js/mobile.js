@@ -59,7 +59,7 @@
   function resourceCard(p, mode) {
     if (!p.resource) return '';
     const saved = p.savedBy.includes(me().id);
-    return `<div class="m-resource ${mode === 'detail' ? 'stacked' : ''}">
+    return `<div class="m-resource stacked">
       <span class="icon-chip">${icon(fileIcon(p.resource.kind), { cls: 'lg' })}</span>
       <div class="r-main"><div class="r-title">${esc(p.resource.title)}</div><div class="r-meta">${esc((p.resource.kind || 'fichier').toUpperCase())} · ressource jointe</div></div>
       <button class="btn btn-sm m-save" data-act="save" data-id="${p.id}" aria-pressed="${saved}" aria-label="${saved ? 'Ressource enregistrée' : 'Enregistrer la ressource'} : ${esc(p.resource.title)}">${icon(saved ? 'check' : 'bookmark', { cls: 'sm' })}${saved ? 'Enregistrée' : 'Enregistrer la ressource'}</button>
