@@ -473,3 +473,6 @@ body { --identity: var(--blue); --identity-ink: var(--blue-ink); }
   .toasts { left: 12px; right: 12px; bottom: 16px; align-items: stretch; }
   .toast { min-width: 0; max-width: none; }
 }
+
+/* Connexion : les CTA « Se connecter en tant que … » peuvent passer à la ligne (noms longs) */
+.login-cards .btn-block { white-space: normal; height: auto; min-height: 48px; padding-block: 12px; text-align: center; line-height: 1.3; }
