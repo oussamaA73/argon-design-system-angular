@@ -85,7 +85,7 @@
       const p = Store.person(tid);
       const own = Store.data.sessions.filter((s) => s.trainerId === tid && s.date.startsWith(year) && s.status !== 'annulée');
       const done = own.filter((s) => s.status === 'terminée').length + (p.extraDone || 0);
-      const scheduled = own.filter((s) => s.status !== 'terminée').length + (p.extraScheduled || 0);
+      const scheduled = own.filter((s) => s.status !== 'terminée' && s.status !== 'proposée').length + (p.extraScheduled || 0);
       return { done, scheduled, total: done + scheduled, threshold: 2 };
     },
     /** actif (≥ 2) · en_sursis (1) · desactive (0) */

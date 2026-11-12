@@ -119,3 +119,19 @@ a.cal-event:hover { background: color-mix(in srgb, var(--ev, var(--blue)) 24%, w
 .opt.is-right { border-color: color-mix(in srgb, var(--green-ok) 40%, white); background: color-mix(in srgb, var(--green-ok) 7%, white); }
 @media (max-width: 640px) { .opts { grid-template-columns: minmax(0, 1fr); } }
 .open-card .gauge { margin-top: 14px; }
+
+/* W4 — choix d'une de mes formations sur un créneau */
+.w4-flist { display: grid; gap: 8px; }
+.w4-fopt { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--line-2); border-radius: var(--r-sm); cursor: pointer; transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease); }
+.w4-fopt:hover { border-color: var(--blue); }
+.w4-fopt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.w4-fbody { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.w4-fbody b { color: var(--ink); font-size: var(--fs-sm); }
+.w4-fopt .w4-fcheck { color: var(--line-2); }
+.w4-fopt:has(input:checked) { border-color: var(--blue); background: color-mix(in srgb, var(--blue) 6%, white); }
+.w4-fopt:has(input:checked) .w4-fcheck { color: var(--blue); }
+.w4-fopt:has(input:focus-visible) { outline: 2px solid var(--blue); outline-offset: 2px; }
+a.slot.affecte { text-decoration: none; cursor: pointer; }
+a.slot.affecte:hover { filter: brightness(1.08); text-decoration: none; }
+.slot[disabled] { opacity: .45; cursor: not-allowed; }
+.seg button[disabled] { opacity: .45; cursor: not-allowed; }

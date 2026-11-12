@@ -19,6 +19,7 @@
   /** état d'affichage d'une session : sans_animateur / sous_effectif / complet / statut brut */
   function sessState(s) {
     const f = Store.fill(s);
+    if (s.status === 'proposée') return 'proposée';
     if (f.low) return 'sous_effectif';
     if (f.full) return 'complet';
     return s.status;
@@ -368,11 +369,20 @@
                 <td class="o-gauge">${gauge({ value: f.n, min: s.min, max: s.max, label: 'Inscrits ' + TITLE(s) })}</td>
                 <td>${statusPill(st)}</td>
                 <td class="num-cell">${(s.pending || []).length ? pill(String((s.pending || []).length), 'blue') : '<span class="muted">—</span>'}</td>
-                <td>${!s.trainerId ? (e ? `<span class="pill teal">${icon('check', { cls: 'sm' })}Proposée${e.responders.length ? ' · ' + e.responders.length + ' réponse' + (e.responders.length > 1 ? 's' : '') : ''}</span>` : `<button class="btn btn-soft btn-sm" data-comm="${s.id}">${icon('users', { cls: 'sm' })}Proposer à la communauté</button>`) : '<span class="muted small">—</span>'}</td></tr>`;
+                <td>${s.status === 'proposée' ? `<button class="btn btn-ok btn-sm" data-confirm="${s.id}">${icon('check', { cls: 'sm' })}Confirmer la session</button>` : !s.trainerId ? (e ? `<span class="pill teal">${icon('check', { cls: 'sm' })}Proposée${e.responders.length ? ' · ' + e.responders.length + ' réponse' + (e.responders.length > 1 ? 's' : '') : ''}</span>` : `<button class="btn btn-soft btn-sm" data-comm="${s.id}">${icon('users', { cls: 'sm' })}Proposer à la communauté</button>`) : '<span class="muted small">—</span>'}</td></tr>`;
             }).join('')}</tbody></table></div>`
             : `<div class="mt-2">${empty({ icon: 'calendar', color: 'teal', title: 'Aucune session à afficher', text: all.length ? 'Aucune session ne correspond à ces filtres.' : 'Aucune session à venir pour le moment.' })}</div>`}`;
         host.querySelectorAll('[data-fs]').forEach((b) => b.addEventListener('click', () => { fState = b.dataset.fs; draw(); }));
         host.querySelector('#o4-form').addEventListener('change', (ev) => { fForm = ev.target.value; draw(); });
+        host.querySelectorAll('[data-confirm]').forEach((b) => b.addEventListener('click', () => {
+          // MOCK : confirmation d'une session proposée par un formateur sur ses disponibilités
+          const s = Store.session(b.dataset.confirm); const fm = Store.formation(s.formationId);
+          s.status = 'ouverte'; if (/à confirmer/.test(s.location)) s.location = 'Tunis — Centre de compétences';
+          if (!Store.data.payments.some((x) => x.sessionId === s.id)) Store.data.payments.push({ id: 'pay-' + s.id, trainerId: s.trainerId, sessionId: s.id, label: fm.short + ' (' + Store.fmtDateShort(s.date) + ')', amount: 1200, status: 'en_attente', date: null });
+          Store.notify(s.trainerId, { icon: 'check-circle', text: `Votre session « ${fm.short} » du ${Store.fmtDateShort(s.date)} est confirmée et ouverte aux inscriptions`, route: '#/before/session/' + s.id });
+          Store.commit('sessions', { sessionId: s.id, confirmed: true }); Store.emit('badge', s.trainerId);
+          toast(`Session « ${esc(fm.short)} » du ${Store.fmtDateShort(s.date)} confirmée — visible au catalogue`, 'ok', { icon: 'check-circle' });
+        }));
         host.querySelectorAll('[data-comm]').forEach((b) => b.addEventListener('click', () => {
           const s = Store.session(b.dataset.comm);
           Store.addEntraide({ authorId: 'leila', kind: 'remplacement', title: `Animateur recherché — ${TITLE(s)}`, date: s.date, location: s.location, sessionId: s.id, text: `Session ouverte sans animateur, ${s.inscrits.length} inscrits. Qui peut animer ? Contactez l'équipe Academy.` });

@@ -140,7 +140,7 @@
   /** Pills de statut normalisées */
   const STATUS = {
     'validée': ['Validée', 'ok'], 'en_attente': ['En attente', 'orange'], 'modifs': ['Modifications demandées', 'blue'], 'refusée': ['Refusée', 'red'], 'archivée': ['Archivée', ''],
-    'brouillon': ['Brouillon', ''], 'ouverte': ['Ouverte', 'blue'], 'confirmée': ['Confirmée', 'ok'], 'terminée': ['Terminée', 'teal'], 'annulée': ['Annulée', 'red'],
+    'brouillon': ['Brouillon', ''], 'proposée': ['Proposée', 'purple'], 'ouverte': ['Ouverte', 'blue'], 'confirmée': ['Confirmée', 'ok'], 'terminée': ['Terminée', 'teal'], 'annulée': ['Annulée', 'red'],
     'payé': ['Payé', 'ok'], 'en_cours': ['En cours', 'blue'], 'validé': ['Validé', 'ok'], 'refusé': ['Refusé', 'red'],
     'actif': ['Actif', 'ok'], 'en_sursis': ['En sursis', 'orange'], 'desactive': ['Désactivé', 'red'],
     'sans_animateur': ['Sans animateur', 'red'], 'sous_effectif': ['Sous-effectif', 'orange'], 'complet': ['Complet', 'teal']

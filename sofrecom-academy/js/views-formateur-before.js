@@ -294,19 +294,55 @@
       const months = [[2026, 10], [2026, 11]];
       let mi = 0;
       const MIN_M = 0, MAX_M = months.length - 1;
-      const declared = () => { let n = 0; Object.values(St.data.dispos[K] || {}).forEach((d) => { if (d.am === 'dispo') n++; if (d.pm === 'dispo') n++; }); return n; };
-      const sessOn = (date) => mySessions().find((s) => s.date === date);
+      const SLOT_TIME = { am: '09:00 – 12:30', pm: '13:30 – 17:00', day: '09:00 – 17:00' };
+      const SLOT_LABEL = { am: 'Matin', pm: 'Après-midi', day: 'Journée' };
+      /** Uniquement les formations validées pour lesquelles Karim est habilité */
+      const myFormations = () => St.data.formations.filter((f) => f.status === 'validée' && ((f.trainerIds || []).includes(K) || f.authorId === K));
+      const declared = () => { let n = 0; Object.values(St.data.dispos[K] || {}).forEach((d) => { ['am', 'pm'].forEach((k) => { if (d[k] === 'dispo' || d[k] === 'affecte') n++; }); }); return n; };
+      const sessOn = (date, slot) => mySessions().find((s) => s.date === date && (!s.slot || s.slot === 'day' || s.slot === slot));
+
+      /** MOCK : crée une session proposée par le formateur sur sa disponibilité */
+      function proposeSession(fid, date, slot) {
+        const f = St.formation(fid);
+        const id = `s-${fid.replace(/^f-/, '')}-${date.slice(5).replace('-', '')}-${slot}`;
+        if (St.session(id)) return St.session(id);
+        const sess = {
+          id, code: `SFA-${date.slice(0, 4)}-${date.slice(5, 7)}${date.slice(8)}`, formationId: fid, date, slot, time: SLOT_TIME[slot],
+          location: 'Lieu à confirmer par l\'équipe Academy', format: f.format, trainerId: K, min: 6, max: 12, status: 'proposée',
+          inscrits: [], pending: [], attendance: {}, signatures: {}, proposedBy: K,
+          live: { started: false, quiz: 'idle', quizStartedAt: null, feedback: 'idle', slide: 0, alerts: [] }
+        };
+        St.data.sessions.push(sess);
+        const d = (St.data.dispos[K] = St.data.dispos[K] || {}); d[date] = d[date] || { am: null, pm: null };
+        (slot === 'day' ? ['am', 'pm'] : [slot]).forEach((k) => { d[date][k] = 'affecte'; });
+        St.notify('leila', { icon: 'calendar-plus', text: `${St.person(K).name} propose une session « ${f.short} » le ${St.fmtDateShort(date)} (${SLOT_LABEL[slot].toLowerCase()})`, route: '#/o/sessions' });
+        St.commit('sessions', { sessionId: id, tid: K, proposed: true });
+        St.emit('dispos', { tid: K, date });
+        return sess;
+      }
+
       el.innerHTML = `
-        ${pageHead({ num: 'W4', eyebrow: 'Before · Mes disponibilités', title: 'Mes disponibilités', lead: 'Cliquez sur un créneau pour alterner : disponible, indisponible, non renseigné.',
+        ${pageHead({ num: 'W4', eyebrow: 'Before · Mes disponibilités', title: 'Mes disponibilités', lead: 'Choisissez un créneau puis l\'une de vos formations : une session est proposée à l\'équipe Academy sur ce créneau.',
           actions: '<button class="btn btn-primary" id="w4save">' + icon('check', { cls: 'sm' }) + ' Enregistrer mes dispos</button>' })}
+        <section class="card reveal mb-3">
+          <div class="row between wrap"><h3>Mes formations habilitées</h3><span class="dim" id="w4fcount"></span></div>
+          <p class="dim mt-1">Seules les formations que vous êtes habilité(e) à animer sont proposées.</p>
+          <div class="chips mt-2" id="w4formations"></div>
+        </section>
         <section class="card reveal">
           <div class="row between wrap cal-bar">
             <div class="row"><button class="btn btn-ghost btn-icon btn-sm" id="w4prev" aria-label="Mois précédent">${icon('chevron-left')}</button><h2 class="cal-title" id="w4title" aria-live="polite"></h2><button class="btn btn-ghost btn-icon btn-sm" id="w4next" aria-label="Mois suivant">${icon('chevron-right')}</button></div>
             <span class="pill teal" id="w4count" aria-live="polite"></span>
           </div>
-          <div class="legend mb-2"><span><i style="background:color-mix(in srgb,var(--teal) 30%,white)"></i>Disponible</span><span><i style="background:var(--blue)"></i>Affecté</span><span><i style="background:var(--bg-2);border:1px solid var(--line-2)"></i>Indisponible</span><span><i style="border:1px dashed var(--line-2)"></i>Non renseigné</span></div>
+          <div class="legend mb-2"><span><i style="background:color-mix(in srgb,var(--teal) 30%,white)"></i>Disponible</span><span><i style="background:var(--blue)"></i>Session (proposée ou confirmée)</span><span><i style="background:var(--bg-2);border:1px solid var(--line-2)"></i>Indisponible</span><span><i style="border:1px dashed var(--line-2)"></i>Non renseigné</span></div>
           <div id="w4cal" class="cal-wrap"></div>
         </section>`;
+
+      function drawFormations() {
+        const list = myFormations();
+        el.querySelector('#w4fcount').textContent = `${list.length} formation${list.length > 1 ? 's' : ''}`;
+        el.querySelector('#w4formations').innerHTML = list.map((f) => `<span class="chip" style="cursor:default">${icon('book-open', { cls: 'sm' })}${esc(f.short)}</span>`).join('');
+      }
       function draw() {
         const [y, m] = months[mi];
         el.querySelector('#w4title').textContent = `${St.MONTHS_LONG[m][0].toUpperCase()}${St.MONTHS_LONG[m].slice(1)} ${y}`;
@@ -316,27 +352,63 @@
         let h = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].map((d) => `<div class="cal-dow">${d}</div>`).join('');
         for (let i = 0; i < lead; i++) h += '<div class="cal-day out" aria-hidden="true"></div>';
         for (let d = 1; d <= dim; d++) {
-          const date = iso(y, m, d); const dow = (new Date(y, m, d).getDay() + 6) % 7; const we = dow >= 5;
+          const date = iso(y, m, d); const dow = (new Date(y, m, d).getDay() + 6) % 7; const we = dow >= 5; const past = date < today();
           const dd = (St.data.dispos[K] || {})[date] || {};
           const slot = (k, long, short) => {
             const v = dd[k];
-            if (v === 'affecte') { const ss = sessOn(date); const nm = ss ? St.formation(ss.formationId).short : 'Session'; return `<div class="slot affecte" title="${esc(nm)} — ${long}" aria-label="${long} : affecté, ${esc(nm)}"><span class="slot-t">${esc(nm)}</span></div>`; }
+            if (v === 'affecte') {
+              const ss = sessOn(date, k); const nm = ss ? St.formation(ss.formationId).short : 'Session';
+              const st = ss && ss.status === 'proposée' ? 'proposée' : 'confirmée';
+              return ss ? `<a class="slot affecte" href="#/before/session/${ss.id}" title="${esc(nm)} — ${long} (${st})" aria-label="${long} : session ${esc(nm)}, ${st}"><span class="slot-t">${esc(nm)}</span></a>`
+                : `<div class="slot affecte" title="${long}"><span class="slot-t">${esc(nm)}</span></div>`;
+            }
             const lbl = v === 'dispo' ? 'disponible' : v === 'indispo' ? 'indisponible' : 'non renseigné';
-            return `<button type="button" class="slot ${v || ''}" data-date="${date}" data-slot="${k}" aria-label="${date} ${long} : ${lbl}">${v === 'dispo' ? icon('check', { cls: 'sm' }) : v === 'indispo' ? icon('x', { cls: 'sm' }) : ''}<span class="l-long">${long}</span><span class="l-short">${short}</span></button>`;
+            return `<button type="button" class="slot ${v || ''}" data-date="${date}" data-slot="${k}" ${past ? 'disabled' : ''} aria-label="${date} ${long} : ${lbl}${past ? ' (passé)' : ''}">${v === 'dispo' ? icon('check', { cls: 'sm' }) : v === 'indispo' ? icon('x', { cls: 'sm' }) : ''}<span class="l-long">${long}</span><span class="l-short">${short}</span></button>`;
           };
           h += `<div class="cal-day ${we ? 'weekend' : ''} ${date === today() ? 'today' : ''}"><span class="d">${d}${date === today() ? ' <span class="today-tag">Aujourd\'hui</span>' : ''}</span>${we ? '' : slot('am', 'Matin', 'M') + slot('pm', 'Après-midi', 'AM')}</div>`;
         }
         el.querySelector('#w4cal').innerHTML = `<div class="cal">${h}</div>`;
       }
-      draw();
+
+      /** Fenêtre : choix du créneau + d'une de MES formations → session proposée */
+      function openSlot(date, slotKey) {
+        const list = myFormations();
+        const dd = ((St.data.dispos[K] || {})[date]) || {};
+        const other = slotKey === 'am' ? 'pm' : 'am';
+        const dayFree = dd[other] !== 'affecte';
+        let chosenSlot = slotKey; let chosenF = list[0] ? list[0].id : null;
+        const fCard = (f) => `<label class="w4-fopt"><input type="radio" name="w4f" value="${f.id}" ${f.id === chosenF ? 'checked' : ''}><span class="w4-fbody"><b>${esc(f.title)}</b><span class="dim">${esc(f.level)} · ${esc(f.format)} · ${f.durationDays} j</span></span>${icon('check-circle', { cls: 'w4-fcheck' })}</label>`;
+        modal({
+          eyebrow: 'W4 · Déclarer une disponibilité', title: St.fmtDate(date).replace(/^./, (c) => c.toUpperCase()),
+          body: `<div class="stack">
+              <div><div class="label mb-1">Créneau</div><div class="seg" role="group" aria-label="Créneau">${['am', 'pm', 'day'].map((k) => `<button type="button" data-s="${k}" aria-pressed="${k === chosenSlot}" ${k === 'day' && !dayFree ? 'disabled' : ''}>${SLOT_LABEL[k]}</button>`).join('')}</div></div>
+              <div><div class="label mb-1">Pour quelle formation ?</div>
+                ${list.length ? `<div class="w4-flist" role="radiogroup" aria-label="Mes formations">${list.map(fCard).join('')}</div>` : empty({ icon: 'book-open', title: 'Aucune formation habilitée', text: 'Proposez une formation pour pouvoir déclarer des sessions.' })}
+              </div>
+              <p class="dim">Une session <b>proposée</b> sera créée sur ce créneau et transmise à l'équipe Academy pour confirmation (lieu, inscriptions).</p>
+            </div>`,
+          foot: `<button class="btn btn-ghost" data-act="indispo">${icon('x', { cls: 'sm' })} Indisponible</button>${dd[slotKey] ? `<button class="btn btn-ghost" data-act="clear">Effacer</button>` : ''}<span class="grow"></span><button class="btn btn-primary" data-act="propose" ${list.length ? '' : 'disabled'}>${icon('calendar-plus', { cls: 'sm' })} Proposer la session</button>`,
+          onOpen(m, close) {
+            m.querySelectorAll('[data-s]').forEach((b) => b.addEventListener('click', () => { chosenSlot = b.dataset.s; m.querySelectorAll('[data-s]').forEach((x) => x.setAttribute('aria-pressed', x === b)); }));
+            m.querySelectorAll('input[name="w4f"]').forEach((r) => r.addEventListener('change', () => { chosenF = r.value; }));
+            m.querySelector('[data-act="indispo"]').addEventListener('click', () => { St.setDispo(K, date, slotKey, 'indispo'); close(); toast(`${St.fmtDateShort(date)} · ${SLOT_LABEL[slotKey].toLowerCase()} : indisponible`, 'info', { icon: 'x' }); });
+            const clr = m.querySelector('[data-act="clear"]'); if (clr) clr.addEventListener('click', () => { St.setDispo(K, date, slotKey, null); close(); });
+            m.querySelector('[data-act="propose"]').addEventListener('click', () => {
+              if (!chosenF) return;
+              const sess = proposeSession(chosenF, date, chosenSlot); close();
+              toast(`Session « ${esc(St.formation(chosenF).short)} » proposée le ${St.fmtDateShort(date)} (${SLOT_LABEL[chosenSlot].toLowerCase()}) — en attente de confirmation Academy`, 'ok', { icon: 'calendar-plus' });
+              const nb = el.querySelector(`a.slot[href="#/before/session/${sess.id}"]`); if (nb) nb.classList.add('flash-in');
+            });
+          }
+        });
+      }
+
+      drawFormations(); draw();
       el.querySelector('#w4cal').addEventListener('click', (e) => {
-        const b = e.target.closest('.slot[data-date]'); if (!b) return;
-        const cur = (((St.data.dispos[K] || {})[b.dataset.date]) || {})[b.dataset.slot] || null;
-        const nxt = cur === null ? 'dispo' : cur === 'dispo' ? 'indispo' : null;
-        St.setDispo(K, b.dataset.date, b.dataset.slot, nxt); // → ctx.on('dispos') redessine
-        const nb = el.querySelector(`.slot[data-date="${b.dataset.date}"][data-slot="${b.dataset.slot}"]`); if (nb) nb.focus();
+        const b = e.target.closest('button.slot[data-date]'); if (!b || b.disabled) return;
+        openSlot(b.dataset.date, b.dataset.slot);
       });
-      ctx.on('dispos', draw);
+      ctx.on('dispos', draw); ctx.on('sessions', draw); ctx.on('proposals', drawFormations);
       el.querySelector('#w4prev').addEventListener('click', () => { mi = Math.max(MIN_M, mi - 1); draw(); });
       el.querySelector('#w4next').addEventListener('click', () => { mi = Math.min(MAX_M, mi + 1); draw(); });
       // MOCK : en production, l'enregistrement enverrait les dispos à l'équipe Academy

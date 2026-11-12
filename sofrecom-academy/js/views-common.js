@@ -8,7 +8,7 @@
   /* ---------- Helpers partagés (exposés à views-participant.js) ---------- */
   const todayISO = () => window.SFA_TODAY;
   const upcoming = (fid) => Store.data.sessions
-    .filter((s) => s.formationId === fid && s.date >= todayISO() && s.status !== 'terminée' && s.status !== 'annulée')
+    .filter((s) => s.formationId === fid && s.date >= todayISO() && s.status !== 'terminée' && s.status !== 'annulée' && s.status !== 'proposée')
     .sort((a, b) => a.date.localeCompare(b.date));
   const nextSession = (fid) => upcoming(fid)[0] || null;
   const fColor = (f) => window.ui.colorVar(f.color);
