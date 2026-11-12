@@ -1,0 +1,1 @@
+/* views-observateur — à implémenter */
